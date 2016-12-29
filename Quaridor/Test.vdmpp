@@ -1,0 +1,40 @@
+class Test
+	operations
+		private assertTrue: bool ==> ()
+		assertTrue(cond) == return
+		pre cond;
+		
+		private testCreateSpace: int * int * int ==> ()
+		testCreateSpace(x, r, c) ==
+		(
+			dcl s: Space := new Space(x, r, c);
+			assertTrue(s.getValue() = x);
+			
+			if r = 1 then assertTrue(s.getPathUp() = true) else assertTrue(s.getPathUp() = false);
+			if r = 9 then assertTrue(s.getPathDown() = true) else assertTrue(s.getPathDown() = false);
+			if c = 1 then assertTrue(s.getPathLeft() = true) else assertTrue(s.getPathLeft() = false);
+			if c = 9 then assertTrue(s.getPathRight() = true) else assertTrue(s.getPathRight() = false);
+		);
+		
+		private testCreateGame: int * int * bool ==> ()
+		testCreateGame(r, c, p) ==
+		(
+			dcl g: Game := new Game();
+			assertTrue(g.board(r)(c).getPathUp() = p);
+		);
+		
+		public static main: () ==> ()
+		main() ==
+		(
+			-- Space tests
+			new Test().testCreateSpace(0, 1, 1);
+			new Test().testCreateSpace(0, 1, 9);
+			new Test().testCreateSpace(0, 9, 1);
+			new Test().testCreateSpace(0, 9, 9);
+			new Test().testCreateSpace(0, 4, 4);
+			new Test().testCreateSpace(0, 1, 3);
+			
+			-- Game tests
+			new Test().testCreateGame(1, 1, true);
+		);
+end Test

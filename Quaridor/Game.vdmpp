@@ -1,14 +1,16 @@
 class Game
-	types
-	-- TODO Define types here
-	values
-	-- TODO Define values here
 	instance variables
-		private board: seq of seq of Space := [[]];
+		public board: seq of seq of Space := [[], [], [], [], [], [], [], [], []];
+
 	operations
-	-- TODO
-	functions
-	-- TODO Define functiones here
-	traces
-	-- TODO Define Combinatorial Test Traces here
+		public Game: () ==> Game
+		Game() ==
+		(
+			for all r in set { 1, ..., 9 } do (
+				for all c in set { 1, ..., 9 } do (
+					board(r)(c) := new Space(0, r, c);
+				)
+			);
+			return self
+		);
 end Game
