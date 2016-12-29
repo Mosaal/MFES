@@ -1,0 +1,49 @@
+class Space
+	instance variables
+		private row: int;
+		private col: int;
+		private value: int;
+		private pathUp: bool := false;
+		private pathDown: bool := false;
+		private pathLeft: bool := false;
+		private pathRight: bool := false;
+		
+	operations
+		public Space: int * int * int ==> Space
+		Space(x, r, c) ==
+		(
+			row := r;
+			col := c;
+			value := x;
+			
+			if r = 0 then pathUp := true;
+			if r = 8 then pathDown := true;
+			if c = 0 then pathLeft := true;
+			if c = 8 then pathRight := true;
+			
+			return self
+		)
+		pre x in set { 0, 1, 2 }
+		and r in set { 0, ..., 8 }
+		and c in set { 0, ..., 8 };
+		
+		public getValue: () ==> int
+		getValue() == return value
+		post RESULT = value;
+		
+		public getPathUp: () ==> bool
+		getPathUp() == return pathUp
+		post RESULT = pathUp;
+		
+		public getPathDown: () ==> bool
+		getPathDown() == return pathDown
+		post RESULT = pathDown;
+		
+		public getPathLeft: () ==> bool
+		getPathLeft() == return pathLeft
+		post RESULT = pathLeft;
+		
+		public getPathRight: () ==> bool
+		getPathRight() == return pathRight
+		post RESULT = pathRight;
+end Space
