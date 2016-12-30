@@ -1,5 +1,6 @@
 class Game
 	instance variables
+		private turn: int;
 		private board: Board;
 		private player1: Player;
 		private player2: Player;
@@ -8,12 +9,14 @@ class Game
 		-- Constructor
 		public Game: () ==> Game
 		Game() == (
+			turn := 1;
 			board := new Board();
 			player1 := new Player(1, 1, 5);
 			player2 := new Player(2, 9, 5);
 			
 			return self
-		);
+		)
+		pre turn in set { 1, 2 };
 		
 		-- Getters
 		public getBoard: () ==> Board
@@ -27,4 +30,31 @@ class Game
 		public getPlayer2: () ==> Player
 		getPlayer2() == return player2
 		post RESULT = player2;
+		
+		-- Logic functions
+		public movePiece: int * int ==> bool
+		movePiece(r, c) == (
+			dcl ret: bool := false;
+		
+			if turn = 1 then (
+				if board.movePiece(r, c, player1) = true then (
+					ret := true;
+					player1.setRow(r);
+					player1.setCol(c);
+					board.setValue(player1.getValue(), r, c)
+				)
+			);
+			
+			if turn = 2 then (
+				if board.movePiece(r, c, player2) = true then (
+					ret := true;
+					player2.setRow(r);
+					player2.setCol(c);
+					board.setValue(player2.getValue(), r, c)
+				)
+			);
+			
+			return ret
+		)
+		pre turn in set { 1, 2 };
 end Game

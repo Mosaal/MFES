@@ -37,6 +37,14 @@ class Player
 		post RESULT = numWalls;
 		
 		-- Setters
+		public setRow: int ==> ()
+		setRow(r) == row := r
+		pre r in set { 1, ..., 9 };
+		
+		public setCol: int ==> ()
+		setCol(c) == col := c
+		pre c in set { 1, ..., 9 };
+		
 		public decNumWalls: () ==> ()
 		decNumWalls() == numWalls := numWalls - 1;
 end Player

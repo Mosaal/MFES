@@ -11,7 +11,7 @@ class Board
 		Board() == (
 			for all r in set { 1, ..., 9 } do (
 				for all c in set { 1, ..., 9 } do (
-					board(r)(c) := new Space(0, r, c);
+					board(r)(c) := new Space(0, r, c)
 				)
 			);
 			
@@ -22,4 +22,47 @@ class Board
 		public getBoard: () ==> Matrix
 		getBoard() == return board
 		post RESULT = board;
+		
+		-- Setters
+		public setValue: int * int * int ==> ()
+		setValue(v, r, c) == board(r)(c).setValue(v)
+		pre v in set { 0, 1, 2 }
+		and r in set { 1, ..., 9 }
+		and c in set { 1, ..., 9 };
+		
+		-- Logic functions
+		public movePiece: int * int * Player ==> bool
+		movePiece(r, c, pl) == (
+			dcl ret: bool := false;
+		
+			if r = pl.getRow() then
+				if c = pl.getCol() then
+					return ret;
+			
+			if board(r)(c).getValue() = 0 then (
+				if r = pl.getRow() then (
+					if c < pl.getCol() then (
+						if board(r)(c).getPathLeft() = false
+							then ret := true
+					) else (
+						if board(r)(c).getPathRight() = false
+							then ret := true
+					)
+				);
+				
+				if c = pl.getCol() then (
+					if r < pl.getRow() then (
+						if board(r)(c).getPathUp() = false
+							then ret := true
+					) else (
+						if board(r)(c).getPathDown() = false
+							then ret := true
+					)
+				)
+			);
+			
+			return ret
+		)
+		pre r in set { 1, ..., 9 }
+		and c in set { 1, ..., 9 };
 end Board
