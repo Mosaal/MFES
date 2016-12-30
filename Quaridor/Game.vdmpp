@@ -1,5 +1,29 @@
 class Game
+	instance variables
+		private board: Board;
+		private player1: Player;
+		private player2: Player;
+
 	operations
 		-- Constructor
+		public Game: () ==> Game
+		Game() == (
+			board := new Board();
+			player1 := new Player(1, 1, 5);
+			player2 := new Player(2, 9, 5);
+			
+			return self
+		);
 		
+		public getBoard: () ==> Board
+		getBoard() == return board
+		post RESULT = board;
+		
+		public getPlayer1: () ==> Player
+		getPlayer1() == return player1
+		post RESULT = player1;
+		
+		public getPlayer2: () ==> Player
+		getPlayer2() == return player2
+		post RESULT = player2;
 end Game

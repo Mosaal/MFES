@@ -5,10 +5,9 @@ class Test
 		pre cond;
 		
 		private testCreateSpace: int * int * int ==> ()
-		testCreateSpace(x, r, c) ==
-		(
-			dcl s: Space := new Space(x, r, c);
-			assertTrue(s.getValue() = x);
+		testCreateSpace(v, r, c) == (
+			dcl s: Space := new Space(v, r, c);
+			assertTrue(s.getValue() = v);
 			
 			if r = 1 then assertTrue(s.getPathUp() = true) else assertTrue(s.getPathUp() = false);
 			if r = 9 then assertTrue(s.getPathDown() = true) else assertTrue(s.getPathDown() = false);
@@ -17,15 +16,26 @@ class Test
 		);
 		
 		private testCreateBoard: () ==> ()
-		testCreateBoard() ==
-		(
+		testCreateBoard() == (
 			dcl b: Board := new Board();
 			assertTrue(b.getBoard()(1)(1).getPathUp() = true)
 		);
 		
+		private testCreatePlayer: int * int * int ==> ()
+		testCreatePlayer(v, r, c) == (
+			dcl p: Player := new Player(v, r, c);
+			
+			assertTrue(p.getRow() = r);
+			assertTrue(p.getCol() = c);
+			assertTrue(p.getValue() = v);
+			assertTrue(p.getNumWalls() = 10);
+			
+			p.decNumWalls();
+			assertTrue(p.getNumWalls() = 9);
+		);
+		
 		public static main: () ==> ()
-		main() ==
-		(
+		main() == (
 			-- Space tests
 			new Test().testCreateSpace(0, 1, 1);
 			new Test().testCreateSpace(0, 1, 9);
@@ -34,7 +44,11 @@ class Test
 			new Test().testCreateSpace(0, 4, 4);
 			new Test().testCreateSpace(0, 1, 3);
 			
-			-- Game tests
+			-- Board tests
 			new Test().testCreateBoard();
+			
+			-- Player tests
+			new Test().testCreatePlayer(1, 1, 1);
+			new Test().testCreatePlayer(2, 1, 9);
 		);
 end Test
