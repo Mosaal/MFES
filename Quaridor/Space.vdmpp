@@ -9,12 +9,12 @@ class Space
 		private pathRight: bool := false;
 		
 	operations
+		-- Constructor
 		public Space: int * int * int ==> Space
-		Space(x, r, c) ==
-		(
+		Space(v, r, c) == (
 			row := r;
 			col := c;
-			value := x;
+			value := v;
 			
 			if r = 1 then pathUp := true;
 			if r = 9 then pathDown := true;
@@ -23,9 +23,18 @@ class Space
 			
 			return self
 		)
-		pre x in set { 0, 1, 2 }
+		pre v in set { 0, 1, 2 }
 		and r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };
+		
+		-- Getters
+		public getRow: () ==> int
+		getRow() == return row
+		post RESULT = row;
+		
+		public getCol: () ==> int
+		getCol() == return col
+		post RESULT = col;
 		
 		public getValue: () ==> int
 		getValue() == return value
@@ -46,4 +55,21 @@ class Space
 		public getPathRight: () ==> bool
 		getPathRight() == return pathRight
 		post RESULT = pathRight;
+		
+		-- Setters
+		public setValue: int ==> ()
+		setValue(v) == value := v
+		pre v in set { 0, 1, 2 };
+		
+		public setPathUp: bool ==> ()
+		setPathUp(p) == pathUp := p;
+		
+		public setPathDown: bool ==> ()
+		setPathDown(p) == pathDown := p;
+		
+		public setPathLeft: bool ==> ()
+		setPathLeft(p) == pathLeft := p;
+		
+		public setPathRight: bool ==> ()
+		setPathRight(p) == pathRight := p;
 end Space

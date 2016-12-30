@@ -16,11 +16,11 @@ class Test
 			if c = 9 then assertTrue(s.getPathRight() = true) else assertTrue(s.getPathRight() = false);
 		);
 		
-		private testCreateGame: int * int * bool ==> ()
-		testCreateGame(r, c, p) ==
+		private testCreateBoard: () ==> ()
+		testCreateBoard() ==
 		(
-			dcl g: Game := new Game();
-			assertTrue(g.board(r)(c).getPathUp() = p);
+			dcl b: Board := new Board();
+			assertTrue(b.getBoard()(1)(1).getPathUp() = true)
 		);
 		
 		public static main: () ==> ()
@@ -35,6 +35,6 @@ class Test
 			new Test().testCreateSpace(0, 1, 3);
 			
 			-- Game tests
-			new Test().testCreateGame(1, 1, true);
+			new Test().testCreateBoard();
 		);
 end Test

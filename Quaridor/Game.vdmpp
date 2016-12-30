@@ -1,16 +1,5 @@
 class Game
-	instance variables
-		public board: seq of seq of Space := [[], [], [], [], [], [], [], [], []];
-
 	operations
-		public Game: () ==> Game
-		Game() ==
-		(
-			for all r in set { 1, ..., 9 } do (
-				for all c in set { 1, ..., 9 } do (
-					board(r)(c) := new Space(0, r, c);
-				)
-			);
-			return self
-		);
+		-- Constructor
+		
 end Game

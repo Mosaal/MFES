@@ -1,0 +1,25 @@
+class Board
+	types
+		public Matrix = seq of seq of Space;
+
+	instance variables
+		private board: Matrix := [[], [], [], [], [], [], [], [], []];
+	
+	operations
+		-- Constructor
+		public Board: () ==> Board
+		Board() == (
+			for all r in set { 1, ..., 9 } do (
+				for all c in set { 1, ..., 9 } do (
+					board(r)(c) := new Space(0, r, c);
+				)
+			);
+			
+			return self
+		);
+		
+		-- Getters
+		public getBoard: () ==> Matrix
+		getBoard() == return board
+		post RESULT = board;
+end Board
