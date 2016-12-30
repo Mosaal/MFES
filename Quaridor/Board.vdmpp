@@ -65,4 +65,15 @@ class Board
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };
+		
+		public placePiece: int * int * int ==> bool
+		placePiece(r, c, dir) == (
+			dcl ret: bool := false;
+			
+			-- TODO
+			
+			return ret
+		)
+		pre r in set { 1, ..., 9 }
+		and c in set { 1, ..., 9 };
 end Board

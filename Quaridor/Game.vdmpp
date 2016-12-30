@@ -1,9 +1,16 @@
 class Game
 	instance variables
+		-- Private Vars
 		private turn: int;
 		private board: Board;
 		private player1: Player;
 		private player2: Player;
+		
+		-- Static Vars
+		public static UP: int := 0;
+		public static DOWN: int := 1;
+		public static LEFT: int := 2;
+		public static RIGHT: int := 3;
 
 	operations
 		-- Constructor
@@ -56,5 +63,33 @@ class Game
 			
 			return ret
 		)
-		pre turn in set { 1, 2 };
+		pre r in set { 1, ..., 9 }
+		and c in set { 1, ..., 9 };
+		
+		public placeWall: int * int * int ==> bool
+		placeWall(r, c, dir) == (
+			dcl ret: bool := false;
+			
+			if turn = 1 then (
+				if player1.getNumWalls() > 0 then (
+					if board.placePiece(r, c, dir) = true then (
+						ret := true;
+						player1.decNumWalls()
+					)
+				)
+			);
+			
+			if turn = 2 then (
+				if player2.getNumWalls() > 0 then (
+					if board.placePiece(r, c, dir) = true then (
+						ret := true;
+						player2.decNumWalls()
+					)
+				)
+			);
+			
+			return ret
+		)
+		pre r in set { 1, ..., 9 }
+		and c in set { 1, ..., 9 };
 end Game
