@@ -92,4 +92,42 @@ class Game
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };
+		
+		-- operação que retorna os esespaços adjacentes ao atual para onde é possível se deslocar
+	public getNewPossibleSpaces: () ==> seq of Space
+	getNewPossibleSpaces (s) == ( -- "s" é o espaço atual
+		dcl newpos: seq of Space;
+		currentrow := s.getRow();
+		currentcol := s.getCol();
+		-- as linhas seguintes verificam se é possível se deslocar para os espaços adjacentes ao atual, se sim guarda esse espaço em newpos
+		if board.getBoard()(currentrow)(currentcol).getPathUp() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol+1)];
+		if board.getBoard()(currentrow)(currentcol).getPathRight() = false then newpos := newpos ^ [board.getBoard()(currentrow+1)(currentcol)];
+		if board.getBoard()(currentrow)(currentcol).getPathLeft() = false then newpos := newpos ^ [board.getBoard()(currentrow-1)(currentcol)];
+		if board.getBoard()(currentrow)(currentcol).getPathDown() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol-1)];
+		return newpos;
+	);
+
+	-- operação que verifica se existe um caminho possível para chegar ao lado pretendido do tabuleiro
+	public checkPath: () ==> bool
+	checkPath (er,s) == ( -- "s" é o espaço atual e "er" é a linha que indica o fim do path
+		dcl visited: set of Space;
+		dcl pathBoard: seq of Space;
+		visited := visited union {s}; -- guarda os espaços já visitados pelo algoritmo ou já postos no pathBoard
+		pathBoard := pathBoard ^ [s]; -- guarda os espaços que faltam verificar pelo algoritmo
+		dcl possiblePaths: seq of Space;
+		while len pathBoard > 0 do (
+			possiblePaths := getNewPossibleSpaces(pathBoard(1)); -- sequência com os espeços adjancentes para onde é possível ir
+			currentrow := pathBoard(1).getRow();
+			pathBoard := tl PathBoard; -- elimina o primeiro elemento do pathBoard
+			if currentrow = er then return true; -- se a linha atual fôr a linha igual à do fim do path, existe path possível
+			for all i in set { 1, ..., len possiblePaths } do (  
+				if possiblePaths(i) not in set visited then ( -- se o novo espaço ainda não foi verificado pelo algoritmo, ele é adicionado 
+					visited := visited union {possiblePaths(i)};
+					pathBoard := pathBoard ^ [possiblePaths(i)];
+				);
+			);
+		);  
+		return false;
+	);		
+		
 end Game
