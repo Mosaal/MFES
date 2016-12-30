@@ -15,6 +15,7 @@ class Game
 			return self
 		);
 		
+		-- Getters
 		public getBoard: () ==> Board
 		getBoard() == return board
 		post RESULT = board;
