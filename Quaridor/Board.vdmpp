@@ -71,6 +71,15 @@ class Board
 			dcl ret: bool := false;
 			
 			-- TODO
+			-- Recebe a row e col de um Space e a direcao (dir)
+			-- da parede em relacao a esse Space
+			-- mas e preciso saber se ocupa mais ums casa
+			-- para a esquerda, direita, cima ou baixo
+			-- porque as paredes ocupas duas casas
+			-- Depois ainda e preciso modificar todos os booleanos
+			-- relacionados com o posicionamento dessa parede
+			-- IDEIA: Se calhar deviamos ter feito um matriz
+			-- ja a contar com espacos livres para as paredes
 			
 			return ret
 		)
