@@ -89,15 +89,15 @@ class Game
 		
 		public checkWinner: () ==> int
 		checkWinner() == (
-			dcl ret: int;
+			dcl ret: int := 0;
 		
 			if player1.getRow() = 9 then ret := player1.getValue();
-			if player2.getRow() = 0 then ret := player2.getValue();
+			if player2.getRow() = 1 then ret := player2.getValue();
 			
 			return ret
 		);
 		
-		-- operação que retorna os esespaços adjacentes ao atual para onde é possível se deslocar
+		-- operação que retorna os os espaços adjacentes ao atual para onde é possível se deslocar
 		public getNewPossibleSpaces: Space ==> seq of Space
 		getNewPossibleSpaces(s) == ( -- "s" é o espaço atual
 			dcl newpos: seq of Space;
