@@ -30,7 +30,7 @@ class Game
 		public getPlayer2: () ==> Player
 		getPlayer2() == return player2
 		post RESULT = player2;
-		
+	
 		-- Logic functions
 		public movePiece: int * int ==> bool
 		movePiece(r, c) == (
@@ -95,6 +95,15 @@ class Game
 			if player2.getRow() = 1 then ret := player2.getValue();
 			
 			return ret
+		);
+		
+		public switchTurn: () ==> ()
+		switchTurn() == (
+			if turn = player1.getValue() then
+				turn := player2.getValue()
+			else
+				turn := player1.getValue();
+			return;
 		);
 		
 		-- operação que retorna os os espaços adjacentes ao atual para onde é possível se deslocar
