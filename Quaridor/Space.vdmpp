@@ -70,8 +70,7 @@ class Space
 		pre v in set { 0, 1, 2 };
 		
 		public setCorner: bool ==> ()
-		setCorner(b) == corner := b
-		pre b = true or b = false;
+		setCorner(b) == corner := b;
 		
 		public setPathUp: bool ==> ()
 		setPathUp(p) == paths(UP) := p;

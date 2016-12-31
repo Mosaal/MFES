@@ -1,19 +1,51 @@
 class Test
 	operations
+		
 		private assertTrue: bool ==> ()
 		assertTrue(cond) == return
 		pre cond;
-		
-		private testCreateSpace: int * int * int ==> ()
-		testCreateSpace(v, r, c) == (
-			dcl s: Space := new Space(v, r, c);
-			assertTrue(s.getValue() = v);
-			
-			if r = 1 then assertTrue(s.getPathUp() = true) else assertTrue(s.getPathUp() = false);
-			if r = 9 then assertTrue(s.getPathDown() = true) else assertTrue(s.getPathDown() = false);
-			if c = 1 then assertTrue(s.getPathLeft() = true) else assertTrue(s.getPathLeft() = false);
-			if c = 9 then assertTrue(s.getPathRight() = true) else assertTrue(s.getPathRight() = false);
-		);
+	
+		private testSpace: int * int * int ==> ()
+			testSpace(v, r, c) == (
+				dcl s: Space := new Space(v, r, c);
+				assertTrue(s.getValue() = v);
+				
+				if v = 0 then
+				(s.setValue(1); assertTrue(s.getValue() = 1);)
+				else
+				(s.setValue(0); assertTrue(s.getValue() = 0););
+				
+				assertTrue(s.getRow() = r);
+				assertTrue(s.getCol() = c);
+
+				if r = 1 then assertTrue(s.getPathUp() = true) else assertTrue(s.getPathUp() = false);
+				if r = 9 then assertTrue(s.getPathDown() = true) else assertTrue(s.getPathDown() = false);
+				if c = 1 then assertTrue(s.getPathLeft() = true) else assertTrue(s.getPathLeft() = false);
+				if c = 9 then assertTrue(s.getPathRight() = true) else assertTrue(s.getPathRight() = false);
+				
+				if s.getPathUp() = false then
+					(s.setPathUp(true); assertTrue(s.getPathUp() = true););
+				if s.getPathDown() = false then
+					(s.setPathDown(true); assertTrue(s.getPathDown() = true););
+				if s.getPathLeft() = false then
+					(s.setPathLeft(true); assertTrue(s.getPathLeft() = true););
+				if s.getPathRight() = false then
+					(s.setPathRight(true); assertTrue(s.getPathRight() = true););
+				
+				
+				
+				if c < 9 and r < 9 then
+					(
+						assertTrue(s.getCorner() = false);
+						s.setCorner(true);
+						assertTrue(s.getCorner() = true);
+						
+					) else
+					assertTrue(s.getCorner() = true);
+				
+				
+				
+			);
 		
 		private testCreatePlayer: int * int * int ==> ()
 		testCreatePlayer(v, r, c) == (
@@ -27,6 +59,7 @@ class Test
 			p.decNumWalls();
 			assertTrue(p.getNumWalls() = 9);
 		);
+
 		
 		private testBoardPlaceWall: () ==> ()
 		testBoardPlaceWall() == (
@@ -61,7 +94,6 @@ class Test
 			--Parede Horizontal
 			b1 := new Board();
 			assertTrue( b1.placeWall(2,2,4) = true);
-			
 			b2 := new Board();
 			assertTrue( b1.placeWall(2,2,4) = false);
 			assertTrue( b2.placeWall(2,2,4) = true);
@@ -71,33 +103,40 @@ class Test
 			b2 := new Board();
 			assertTrue( b1.placeWall(2,3,4) = false);
 			assertTrue( b2.placeWall(2,3,4) = true);
-			
 				--Parede a atrevessar
 			assertTrue( b1.placeWall(2,1,2) = true);
 			assertTrue( b1.placeWall(2,2,2) = false);
 			assertTrue( b1.placeWall(2,3,2) = true);
-			
-			
 		);
+		
+		
+		
 		
 		public static main: () ==> ()
 		main() == (
+			
 			dcl test: Test := new Test();
-		
 			-- Space tests
-			test.testCreateSpace(0, 1, 1);
-			test.testCreateSpace(0, 1, 9);
-			test.testCreateSpace(0, 9, 1);
-			test.testCreateSpace(0, 9, 9);
-			test.testCreateSpace(0, 4, 4);
-			test.testCreateSpace(0, 1, 3);
+			test.testSpace(0, 1, 1);
+			test.testSpace(0, 1, 9);
+			test.testSpace(0, 9, 1);
+			test.testSpace(0, 9, 9);
+			test.testSpace(0, 4, 4);
+			test.testSpace(0, 1, 3);
 			
 			-- Player tests
 			test.testCreatePlayer(1, 1, 1);
 			test.testCreatePlayer(2, 1, 9);
 			
 			-- Board tests
-			test.testBoardPlaceWall();
-			
+			test.testBoardPlaceWall();			
 		);
+		
+		
+		traces
+			Space_CT :
+	      let v in set {0,1,2} in  
+	      let r in set {1, ..., 9} in 
+	      let c in set {1, ..., 9} 
+	      in testSpace(v, r, c);
 end Test
