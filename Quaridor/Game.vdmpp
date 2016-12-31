@@ -103,7 +103,6 @@ class Game
 				turn := player2.getValue()
 			else
 				turn := player1.getValue();
-			return;
 		);
 		
 		-- operação que retorna os os espaços adjacentes ao atual para onde é possível se deslocar
