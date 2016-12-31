@@ -66,22 +66,87 @@ class Board
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };
 		
-		public placePiece: int * int * int ==> bool
-		placePiece(r, c, dir) == (
-			dcl ret: bool := false;
+		
+		public placeWall: int * int * int ==> bool
+		placeWall(r, c, dir) == (		
+			-- UP = 1;
+			-- DOWN = 2;
+			-- LEFT = 3;
+			-- RIGHT = 4;
 			
-			-- TODO
-			-- Recebe a row e col de um Space e a direcao (dir)
-			-- da parede em relacao a esse Space
-			-- mas e preciso saber se ocupa mais ums casa
-			-- para a esquerda, direita, cima ou baixo
-			-- porque as paredes ocupas duas casas
-			-- Depois ainda e preciso modificar todos os booleanos
-			-- relacionados com o posicionamento dessa parede
-			-- IDEIA: Se calhar deviamos ter feito um matriz
-			-- ja a contar com espacos livres para as paredes
+			-- Se estiver nos limites do tabuleiro, algumas direcções são inválidas
+			if r = 1 and dir = 1 then
+				return false;
+			if r = 9 and dir = 2 then
+				return false;
+			if c = 1 and dir = 3 then
+				return false;
+			if c = 9 and dir = 4 then
+				return false;
 			
-			return ret
+			-- Ver se os caminhos adjacentes estão vazios
+			if dir = 1 or dir = 2 then(
+					if board(r)(c).getPathRight() = true then
+						return false;
+			) else (
+					if board(r)(c).getPathDown() = true then
+						return false;
+			);
+			
+			-- Ver se os caminhos em largura estão vazios
+			if dir = 1 then 
+				if board(r - 1)(c).getPathRight() = true then
+						return false;
+			if dir = 2 then 
+				if board(r + 1)(c).getPathRight() = true then
+						return false;
+			if dir = 3 then 
+				if board(r)(c - 1).getPathDown() = true then
+						return false;
+			if dir = 4 then 
+				if board(r)(c + 1).getPathDown() = true then
+						return false;
+						
+						
+			-- Verificar que a nova parede não atravessa transversalmente outra parede
+			if dir = 1 then
+				if board(r - 1)(c).getCorner() = true then 
+					return false;
+			if dir = 2 or dir = 4 then 
+				if board(r)(c).getCorner() = true then 
+					return false;
+			if dir = 3 then
+				if board(r)(c - 1).getCorner() = true then 
+					return false;
+					
+					
+			-- Todos os caminhos estão livres, pode-se acrescentar uma parede
+			if dir = 1 then (
+				board(r)(c).setPathRight(true);
+				board(r - 1)(c).setPathRight(true);
+				board(r - 1)(c).setCorner(true);
+				return true;
+			);
+			if dir = 2 then (
+				board(r)(c).setPathRight(true);
+				board(r + 1)(c).setPathRight(true);
+				board(r)(c).setCorner(true);
+				return true;
+			);
+			if dir = 3 then (
+				board(r)(c).setPathDown(true);
+				board(r)(c - 1).setPathDown(true);
+				board(r)(c - 1).setCorner(true);
+				return true;
+			);
+			if dir = 4 then (
+				board(r)(c).setPathDown(true);
+				board(r)(c + 1).setPathDown(true);
+				board(r)(c).setCorner(true);
+				return true;
+			);
+
+			return false;
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 }

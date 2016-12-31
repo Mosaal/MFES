@@ -7,6 +7,7 @@ class Space
 	
 		private row: int;
 		private col: int;
+		private corner : bool := false;
 		private value: int;
 		private paths: seq of bool := [ false, false, false, false ];
 		
@@ -22,6 +23,7 @@ class Space
 			if r = 9 then paths(DOWN) := true;
 			if c = 1 then paths(LEFT) := true;
 			if c = 9 then paths(RIGHT) := true;
+			if r = 9 or c = 9 then corner := true;
 			
 			return self
 		)
@@ -41,6 +43,10 @@ class Space
 		public getValue: () ==> int
 		getValue() == return value
 		post RESULT = value;
+		
+		public getCorner: () ==> bool
+		getCorner() == return corner
+		post RESULT = corner;
 		
 		public getPathUp: () ==> bool
 		getPathUp() == return paths(UP)
@@ -62,6 +68,10 @@ class Space
 		public setValue: int ==> ()
 		setValue(v) == value := v
 		pre v in set { 0, 1, 2 };
+		
+		public setCorner: bool ==> ()
+		setCorner(b) == corner := b
+		pre b = true or b = false;
 		
 		public setPathUp: bool ==> ()
 		setPathUp(p) == paths(UP) := p;

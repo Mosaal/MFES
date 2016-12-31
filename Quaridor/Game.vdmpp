@@ -65,7 +65,7 @@ class Game
 			
 			if turn = 1 then (
 				if player1.getNumWalls() > 0 then (
-					if board.placePiece(r, c, dir) = true then (
+					if board.placeWall(r, c, dir) = true then (
 						ret := true;
 						player1.decNumWalls()
 					)
@@ -74,7 +74,7 @@ class Game
 			
 			if turn = 2 then (
 				if player2.getNumWalls() > 0 then (
-					if board.placePiece(r, c, dir) = true then (
+					if board.placeWall(r, c, dir) = true then (
 						ret := true;
 						player2.decNumWalls()
 					)
