@@ -66,7 +66,6 @@ class Board
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };
 		
-		
 		public placeWall: int * int * int ==> bool
 		placeWall(r, c, dir) == (		
 			-- UP = 1;
@@ -85,27 +84,27 @@ class Board
 				return false;
 			
 			-- Ver se os caminhos adjacentes estão vazios
-			if dir = 1 or dir = 2 then(
-					if board(r)(c).getPathRight() = true then
-						return false;
+			if dir = 1 or dir = 2 then (
+				if board(r)(c).getPathRight() = true then
+					return false;
 			) else (
-					if board(r)(c).getPathDown() = true then
-						return false;
+				if board(r)(c).getPathDown() = true then
+					return false;
 			);
 			
 			-- Ver se os caminhos em largura estão vazios
 			if dir = 1 then 
 				if board(r - 1)(c).getPathRight() = true then
-						return false;
+					return false;
 			if dir = 2 then 
 				if board(r + 1)(c).getPathRight() = true then
-						return false;
+					return false;
 			if dir = 3 then 
 				if board(r)(c - 1).getPathDown() = true then
-						return false;
+					return false;
 			if dir = 4 then 
 				if board(r)(c + 1).getPathDown() = true then
-						return false;
+					return false;
 						
 						
 			-- Verificar que a nova parede não atravessa transversalmente outra parede

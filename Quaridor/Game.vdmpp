@@ -84,7 +84,18 @@ class Game
 			return ret
 		)
 		pre r in set { 1, ..., 9 }
-		and c in set { 1, ..., 9 };
+		and c in set { 1, ..., 9 }
+		and dir in set { 1, 2, 3, 4 };
+		
+		public checkWinner: () ==> int
+		checkWinner() == (
+			dcl ret: int;
+		
+			if player1.getRow() = 9 then ret := player1.getValue();
+			if player2.getRow() = 0 then ret := player2.getValue();
+			
+			return ret
+		);
 		
 		-- operação que retorna os esespaços adjacentes ao atual para onde é possível se deslocar
 		public getNewPossibleSpaces: Space ==> seq of Space
