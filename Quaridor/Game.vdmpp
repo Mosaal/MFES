@@ -1,16 +1,9 @@
 class Game
 	instance variables
-		-- Private Vars
 		private turn: int;
 		private board: Board;
 		private player1: Player;
 		private player2: Player;
-		
-		-- Static Vars
-		public static UP: int := 0;
-		public static DOWN: int := 1;
-		public static LEFT: int := 2;
-		public static RIGHT: int := 3;
 
 	operations
 		-- Constructor
@@ -130,7 +123,7 @@ class Game
 				for all i in set { 1, ..., len possiblePaths } do (  
 					if possiblePaths(i) not in set visited then ( -- se o novo espaço ainda não foi verificado pelo algoritmo, ele é adicionado 
 						visited := visited union {possiblePaths(i)};
-						pathBoard := pathBoard ^ [possiblePaths(i)];
+						pathBoard := pathBoard ^ [possiblePaths(i)]
 					)
 				)
 			);

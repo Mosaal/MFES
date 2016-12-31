@@ -84,5 +84,6 @@ class Board
 			return ret
 		)
 		pre r in set { 1, ..., 9 }
-		and c in set { 1, ..., 9 };
+		and c in set { 1, ..., 9 }
+		and dir in set { 1, 2, 3, 4 };
 end Board

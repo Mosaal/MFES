@@ -1,12 +1,14 @@
 class Space
 	instance variables
+		public static UP: int := 1;
+		public static DOWN: int := 2;
+		public static LEFT: int := 3;
+		public static RIGHT: int := 4;
+	
 		private row: int;
 		private col: int;
 		private value: int;
-		private pathUp: bool := false;
-		private pathDown: bool := false;
-		private pathLeft: bool := false;
-		private pathRight: bool := false;
+		private paths: seq of bool := [ false, false, false, false ];
 		
 	operations
 		-- Constructor
@@ -16,10 +18,10 @@ class Space
 			col := c;
 			value := v;
 			
-			if r = 1 then pathUp := true;
-			if r = 9 then pathDown := true;
-			if c = 1 then pathLeft := true;
-			if c = 9 then pathRight := true;
+			if r = 1 then paths(UP) := true;
+			if r = 9 then paths(DOWN) := true;
+			if c = 1 then paths(LEFT) := true;
+			if c = 9 then paths(RIGHT) := true;
 			
 			return self
 		)
@@ -41,20 +43,20 @@ class Space
 		post RESULT = value;
 		
 		public getPathUp: () ==> bool
-		getPathUp() == return pathUp
-		post RESULT = pathUp;
+		getPathUp() == return paths(UP)
+		post RESULT = paths(UP);
 		
 		public getPathDown: () ==> bool
-		getPathDown() == return pathDown
-		post RESULT = pathDown;
+		getPathDown() == return paths(DOWN)
+		post RESULT = paths(DOWN);
 		
 		public getPathLeft: () ==> bool
-		getPathLeft() == return pathLeft
-		post RESULT = pathLeft;
+		getPathLeft() == return paths(LEFT)
+		post RESULT = paths(LEFT);
 		
 		public getPathRight: () ==> bool
-		getPathRight() == return pathRight
-		post RESULT = pathRight;
+		getPathRight() == return paths(RIGHT)
+		post RESULT = paths(RIGHT);
 		
 		-- Setters
 		public setValue: int ==> ()
@@ -62,14 +64,14 @@ class Space
 		pre v in set { 0, 1, 2 };
 		
 		public setPathUp: bool ==> ()
-		setPathUp(p) == pathUp := p;
+		setPathUp(p) == paths(UP) := p;
 		
 		public setPathDown: bool ==> ()
-		setPathDown(p) == pathDown := p;
+		setPathDown(p) == paths(DOWN) := p;
 		
 		public setPathLeft: bool ==> ()
-		setPathLeft(p) == pathLeft := p;
+		setPathLeft(p) == paths(LEFT) := p;
 		
 		public setPathRight: bool ==> ()
-		setPathRight(p) == pathRight := p;
+		setPathRight(p) == paths(RIGHT) := p;
 end Space
