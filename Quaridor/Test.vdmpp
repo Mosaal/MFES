@@ -135,8 +135,8 @@ class Test
 		
 		traces
 			Space_CT :
-	      let v in set {0,1,2} in  
-	      let r in set {1, ..., 9} in 
-	      let c in set {1, ..., 9} 
+	      let v in set { 0, 1, 2 } in  
+	      let r in set { 1, ..., 9 } in 
+	      let c in set { 1, ..., 9 } 
 	      in testSpace(v, r, c);
 end Test
