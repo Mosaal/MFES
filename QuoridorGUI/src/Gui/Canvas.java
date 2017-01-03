@@ -53,21 +53,21 @@ public class Canvas extends JPanel {
 				for (int i = 0; i < pawnGrid.length; i++) {
 					for (int j = 0; j < pawnGrid[i].length; j++) {
 						if (pawnGrid[i][j].contains(e.getX(), e.getY()))
-							System.out.println("Pawn cell: " + j + ", " + i);
+							System.out.println("Pawn cell: " + (j+1) + ", " + (i+1));
 					}
 				}
 				
 				for (int i = 0; i < wallsGridVer.length; i++) {
 					for (int j = 0; j < wallsGridVer[i].length; j++) {
 						if (wallsGridVer[i][j].contains(e.getX(), e.getY()))
-							System.out.println("Ver. wall cell: " + j + ", " + i);
+							System.out.println("Ver. wall cell: " + (j+1) + ", " + (i+1));
 					}
 				}
 				
 				for (int i = 0; i < wallsGridHor.length; i++) {
 					for (int j = 0; j < wallsGridHor[i].length; j++) {
 						if (wallsGridHor[i][j].contains(e.getX(), e.getY()))
-							System.out.println("Hor. wall cell: " + j + ", " + i);
+							System.out.println("Hor. wall cell: " + (j+1) + ", " + (i+1));
 					}
 				}
 			}

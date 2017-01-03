@@ -121,26 +121,26 @@ class Board
 					
 			-- Todos os caminhos estão livres, pode-se acrescentar uma parede
 			if dir = 1 then (
-				board(r)(c).setPathRight(true);
-				board(r - 1)(c).setPathRight(true);
+				board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
+				board(r - 1)(c).setPathRight(true);		board(r - 1)(c + 1).setPathLeft(true);
 				board(r - 1)(c).setCorner(true);
 				return true;
 			);
 			if dir = 2 then (
-				board(r)(c).setPathRight(true);
-				board(r + 1)(c).setPathRight(true);
+				board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
+				board(r + 1)(c).setPathRight(true);		board(r + 1)(c + 1).setPathLeft(true);
 				board(r)(c).setCorner(true);
 				return true;
 			);
 			if dir = 3 then (
-				board(r)(c).setPathDown(true);
-				board(r)(c - 1).setPathDown(true);
+				board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
+				board(r)(c - 1).setPathDown(true);	board(r + 1)(c - 1).setPathUp(true);
 				board(r)(c - 1).setCorner(true);
 				return true;
 			);
 			if dir = 4 then (
-				board(r)(c).setPathDown(true);
-				board(r)(c + 1).setPathDown(true);
+				board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
+				board(r)(c + 1).setPathDown(true);	board(r + 1)(c + 1).setPathUp(true);
 				board(r)(c).setCorner(true);
 				return true;
 			);

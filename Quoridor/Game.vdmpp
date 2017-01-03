@@ -11,8 +11,8 @@ class Game
 		Game() == (
 			turn := 1;
 			board := new Board();
-			player1 := new Player(1, 1, 5);
-			player2 := new Player(2, 9, 5);
+			player2 := new Player(1, 1, 5);
+			player1 := new Player(2, 9, 5);
 			
 			return self
 		);
@@ -29,6 +29,11 @@ class Game
 		public getPlayer2: () ==> Player
 		getPlayer2() == return player2
 		post RESULT = player2;
+	
+		public getTurn: () ==> int
+		getTurn() == return turn
+		post RESULT = turn;
+	
 	
 		-- Logic functions
 		public movePiece: int * int ==> bool
@@ -60,6 +65,10 @@ class Game
 		
 		public placeWall: int * int * int ==> bool
 		placeWall(r, c, dir) == (
+			-- UP = 1;
+			-- DOWN = 2;
+			-- LEFT = 3;
+			-- RIGHT = 4;
 			dcl ret: bool := false;
 			
 			if turn = 1 then (
@@ -105,24 +114,24 @@ class Game
 		);
 		
 		-- operação que retorna os os espaços adjacentes ao atual para onde é possível se deslocar
-		public getNewPossibleSpaces: Space ==> seq of Space
-		getNewPossibleSpaces(s) == ( -- "s" é o espaço atual
+		public getNewPossibleSpaces: Board * Space ==> seq of Space
+		getNewPossibleSpaces(b, s) == ( -- "s" é o espaço atual
 			dcl newpos: seq of Space := [];
 			dcl currentrow: int := s.getRow();
 			dcl currentcol: int := s.getCol();
 			
 			-- as linhas seguintes verificam se é possível se deslocar para os espaços adjacentes ao atual, se sim guarda esse espaço em newpos
-			if board.getBoard()(currentrow)(currentcol).getPathUp() = false then newpos := newpos ^ [board.getBoard()(currentrow - 1)(currentcol)];
-			if board.getBoard()(currentrow)(currentcol).getPathDown() = false then newpos := newpos ^ [board.getBoard()(currentrow + 1)(currentcol)];
-			if board.getBoard()(currentrow)(currentcol).getPathLeft() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol - 1)];
-			if board.getBoard()(currentrow)(currentcol).getPathRight() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol + 1)];
+			if b.getBoard()(currentrow)(currentcol).getPathUp() = false then newpos := newpos ^ [board.getBoard()(currentrow - 1)(currentcol)];
+			if b.getBoard()(currentrow)(currentcol).getPathDown() = false then newpos := newpos ^ [board.getBoard()(currentrow + 1)(currentcol)];
+			if b.getBoard()(currentrow)(currentcol).getPathLeft() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol - 1)];
+			if b.getBoard()(currentrow)(currentcol).getPathRight() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol + 1)];
 			
 			return newpos
 		);
 		
 		-- operação que verifica se existe um caminho possível para chegar ao lado pretendido do tabuleiro
-		public checkPath: int * Space ==> bool
-		checkPath (er, s) == ( -- "s" é o espaço atual e "er" é a linha que indica o fim do path
+		public checkPath: Board * int * Space ==> bool
+		checkPath (b, er, s) == ( -- "s" é o espaço atual e "er" é a linha que indica o fim do path
 			dcl currentrow: int;
 			dcl visited: set of Space := {}; -- guarda os espaços já visitados pelo algoritmo ou já postos no pathBoard
 			dcl pathBoard: seq of Space := []; -- guarda os espaços que faltam verificar pelo algoritmo
@@ -132,7 +141,7 @@ class Game
 			pathBoard := pathBoard ^ [s];
 			
 			while len pathBoard > 0 do (
-				possiblePaths := getNewPossibleSpaces(pathBoard(1)); -- sequência com os espeços adjancentes para onde é possível ir
+				possiblePaths := getNewPossibleSpaces(b, pathBoard(1)); -- sequência com os espeços adjancentes para onde é possível ir
 				currentrow := pathBoard(1).getRow();
 				pathBoard := tl pathBoard; -- elimina o primeiro elemento do pathBoard
 				

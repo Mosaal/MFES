@@ -109,6 +109,31 @@ class Test
 			assertTrue( b1.placeWall(2,3,2) = true);
 		);
 		
+		private testGameLogic: () ==> ()
+		testGameLogic() == (
+			dcl g: Game := new Game();
+			
+			assertTrue( g.getTurn() = 1);
+			
+			assertTrue( g.placeWall(1,1,4) = true);
+			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
+			
+			assertTrue( g.placeWall(1,3,4) = true);
+			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
+			
+			assertTrue( g.placeWall(1,5,4) = true);
+			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
+
+			assertTrue( g.placeWall(1,7,4) = true);
+			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
+			
+			
+			
+			assertTrue( g.placeWall(1,8,2) = true);
+			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
+			assertTrue( g.placeWall(2,8,4) = true);
+			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = false );
+		);
 		
 		
 		
@@ -129,7 +154,10 @@ class Test
 			test.testCreatePlayer(2, 1, 9);
 			
 			-- Board tests
-			test.testBoardPlaceWall();			
+			test.testBoardPlaceWall();	
+			
+			-- Game tests
+			test.testGameLogic();		
 		);
 		
 		
