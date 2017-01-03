@@ -15,6 +15,7 @@ public class Canvas extends JPanel {
 
 	private static final long serialVersionUID = 3640767985329569838L;
 
+	private QuoridorGUI parent;
 	private Tile[][] pawnGrid;
 	private Tile[][] wallsGridVer;
 	private Tile[][] wallsGridHor;
@@ -23,7 +24,8 @@ public class Canvas extends JPanel {
 	private BufferedImage player1Image;
 	private BufferedImage player2Image;
 	
-	public Canvas() {
+	public Canvas(QuoridorGUI p) {
+		parent = p;
 		pawnGrid = new Tile[9][9];
 		for (int i = 0; i < pawnGrid.length; i++)
 			for (int j = 0; j < pawnGrid[i].length; j++)
@@ -53,27 +55,43 @@ public class Canvas extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				for (int i = 0; i < pawnGrid.length; i++) {
 					for (int j = 0; j < pawnGrid[i].length; j++) {
-						if (pawnGrid[i][j].contains(e.getX(), e.getY()))
+						if (pawnGrid[i][j].contains(e.getX(), e.getY())){
 							System.out.println("Pawn cell: " + (i+1) + ", " + (j+1));
+						
+							//TODO 
+							//parent.game
+							
+						}
 					}
 				}
 				
 				for (int i = 0; i < wallsGridVer.length; i++) {
 					for (int j = 0; j < wallsGridVer[i].length; j++) {
-						if (wallsGridVer[i][j].contains(e.getX(), e.getY()))
+						if (wallsGridVer[i][j].contains(e.getX(), e.getY())){
 							System.out.println("Ver. wall cell: " + (i+1) + ", " + (j+1));
+							
+							//TODO 
+						}
 					}
 				}
 				
 				for (int i = 0; i < wallsGridHor.length; i++) {
 					for (int j = 0; j < wallsGridHor[i].length; j++) {
-						if (wallsGridHor[i][j].contains(e.getX(), e.getY()))
+						if (wallsGridHor[i][j].contains(e.getX(), e.getY())){
 							System.out.println("Hor. wall cell: " + (i+1) + ", " + (j+1));
+							
+							//TODO 
+						}
 					}
 				}
+				
+
+				
+				parent.updateGraphics();
 			}
 			@Override
-			public void mouseReleased(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {
+			}
 			@Override
 			public void mousePressed(MouseEvent e) {}
 			@Override

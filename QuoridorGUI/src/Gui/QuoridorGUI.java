@@ -12,10 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import Quoridor.Game;
+
 public class QuoridorGUI extends JFrame {
 
 	private static final long serialVersionUID = -8122266587490682878L;
 	
+	public Game game;
 	private Canvas canvas;
 	private JPanel mainPanel;
 	private JPanel wallsPanel;
@@ -27,7 +30,7 @@ public class QuoridorGUI extends JFrame {
 	public QuoridorGUI() {
 		super("Quoridor");
 		
-		canvas = new Canvas();
+		canvas = new Canvas(this);
 		canvas.setPreferredSize(new Dimension(450, 450));
 		
 		JPanel auxPanel = new JPanel();
@@ -46,6 +49,8 @@ public class QuoridorGUI extends JFrame {
 				System.out.println(n);
 			}
 		});*/
+		
+		game = new Game();
 		
 		turnLabel = new JLabel("Turn: Player 1", SwingConstants.CENTER);
 		turnLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,6 +87,16 @@ public class QuoridorGUI extends JFrame {
 		pack();
 		setLocation(centerX - getWidth() / 2, centerY - getHeight() / 2);
 		setVisible(true);
+	}
+	
+	public void updateGraphics(){
+		numWallsP1.setText("Player 1 Walls: " + game.getPlayer1().getNumWalls());
+		numWallsP2.setText("Player 2 Walls: " + game.getPlayer2().getNumWalls());
+		wallsPanel.revalidate();
+		wallsPanel.repaint();
+		
+		//TODO
+		
 	}
 	
 	public static void main(String[] args) {
