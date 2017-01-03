@@ -11,8 +11,8 @@ class Game
 		Game() == (
 			turn := 1;
 			board := new Board();
-			player2 := new Player(1, 1, 5);
-			player1 := new Player(2, 9, 5);
+			player2 := new Player(2, 1, 5);
+			player1 := new Player(1, 9, 5);
 			
 			return self
 		);
@@ -34,7 +34,6 @@ class Game
 		getTurn() == return turn
 		post RESULT = turn;
 	
-	
 		-- Logic functions
 		public movePiece: int * int ==> bool
 		movePiece(r, c) == (
@@ -45,7 +44,7 @@ class Game
 					ret := true;
 					player1.setRow(r);
 					player1.setCol(c);
-					board.setValue(player1.getValue(), r, c)
+					board.setValue(player1.getValue(), r, c);
 				)
 			);
 			
@@ -54,14 +53,17 @@ class Game
 					ret := true;
 					player2.setRow(r);
 					player2.setCol(c);
-					board.setValue(player2.getValue(), r, c)
+					board.setValue(player2.getValue(), r, c);
 				)
 			);
 			
+			if ret = true then
+				switchTurn();
+				
 			return ret
 		)
 		pre r in set { 1, ..., 9 }
-		and c in set { 1, ..., 9 };
+		and c in set { 1, ..., 9 };		
 		
 		public placeWall: int * int * int ==> bool
 		placeWall(r, c, dir) == (
@@ -70,25 +72,41 @@ class Game
 			-- LEFT = 3;
 			-- RIGHT = 4;
 			dcl ret: bool := false;
+			dcl b_temp: Board := new Board(board);
 			
 			if turn = 1 then (
 				if player1.getNumWalls() > 0 then (
-					if board.placeWall(r, c, dir) = true then (
-						ret := true;
-						player1.decNumWalls()
+					if b_temp.placeWall(r,c,dir) = true then(
+						if checkPath(b_temp, 1, b_temp.getBoard()(player1.getRow())(player1.getCol()) ) = true 
+								and checkPath(b_temp, 9, b_temp.getBoard()(player2.getRow())(player2.getCol())) = true 
+							then (
+								if board.placeWall(r, c, dir) = true then (
+									ret := true;
+									player1.decNumWalls()
+							)
+						)
 					)
 				)
 			);
 			
 			if turn = 2 then (
 				if player2.getNumWalls() > 0 then (
-					if board.placeWall(r, c, dir) = true then (
-						ret := true;
-						player2.decNumWalls()
+					if b_temp.placeWall(r,c,dir) = true then(
+						if checkPath(b_temp, 1, b_temp.getBoard()(player1.getRow())(player1.getCol()) ) = true 
+							and checkPath(b_temp, 9, b_temp.getBoard()(player2.getRow())(player2.getCol())) = true 
+							then (
+									if board.placeWall(r, c, dir) = true then (
+										ret := true;
+										player2.decNumWalls()
+							)
+						)
 					)
 				)
 			);
 			
+			if ret = true then
+				switchTurn();
+				
 			return ret
 		)
 		pre r in set { 1, ..., 9 }
@@ -99,13 +117,15 @@ class Game
 		checkWinner() == (
 			dcl ret: int := 0;
 		
-			if player1.getRow() = 9 then ret := player1.getValue();
-			if player2.getRow() = 1 then ret := player2.getValue();
+			if player1.getRow() = 1 then 
+				ret := player1.getValue();
+			if player2.getRow() = 9 then 
+				ret := player2.getValue();
 			
 			return ret
 		);
 		
-		public switchTurn: () ==> ()
+		private switchTurn: () ==> ()
 		switchTurn() == (
 			if turn = player1.getValue() then
 				turn := player2.getValue()

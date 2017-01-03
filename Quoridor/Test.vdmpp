@@ -112,27 +112,76 @@ class Test
 		private testGameLogic: () ==> ()
 		testGameLogic() == (
 			dcl g: Game := new Game();
-			
 			assertTrue( g.getTurn() = 1);
 			
-			assertTrue( g.placeWall(1,1,4) = true);
+			--Placing a bunch of walls that surround player 2.
+			assertTrue( g.placeWall(1,1,4) = true); 
+			assertTrue( g.getTurn() = 2);
 			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
-			
+			assertTrue( g.checkPath(g.getBoard(), 9, new Space(0, 1, 5)) = true );
 			assertTrue( g.placeWall(1,3,4) = true);
+			assertTrue( g.getTurn() = 1);
 			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
-			
+			assertTrue( g.checkPath(g.getBoard(), 9, new Space(0, 1, 5)) = true );
 			assertTrue( g.placeWall(1,5,4) = true);
+			assertTrue( g.getTurn() = 2);
 			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
-
+			assertTrue( g.checkPath(g.getBoard(), 9, new Space(0, 1, 5)) = true );
 			assertTrue( g.placeWall(1,7,4) = true);
+			assertTrue( g.getTurn() = 1);
 			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
+			assertTrue( g.checkPath(g.getBoard(), 9, new Space(0, 1, 5)) = true );
 			
+			assertTrue( g.placeWall(1,8,2) = false); --blocks player 2
+			assertTrue( g.getTurn() = 1);
 			
+			--Placing a bunch of walls that surround player 1.
+			assertTrue( g.placeWall(9,4,1) = true);
+			assertTrue( g.getTurn() = 2);
+			assertTrue( g.placeWall(8,5,2) = true);
+			assertTrue( g.getTurn() = 1);
 			
-			assertTrue( g.placeWall(1,8,2) = true);
-			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = true );
-			assertTrue( g.placeWall(2,8,4) = true);
-			assertTrue( g.checkPath(g.getBoard(), 1, new Space(0, 9, 5)) = false );
+			assertTrue( g.placeWall(7,4,4) = false); --blocks player 1
+			assertTrue( g.getTurn() = 1);
+			
+			--Extra walls for later
+			assertTrue( g.placeWall(6,5,4) = true);
+			assertTrue( g.placeWall(6,4,3) = true); 
+			
+			--Movement and Turn assessement
+			assertTrue( g.movePiece(9,6) = false);  --blocked right
+			assertTrue( g.getTurn() = 1);
+			assertTrue( g.movePiece(9,4) = false); --blocked left
+			assertTrue( g.getTurn() = 1);
+			assertTrue( g.movePiece(8,5) = true);
+			assertTrue( g.getTurn() = 2);
+			
+			assertTrue( g.movePiece(9,5) = false);  --too far
+			assertTrue( g.movePiece(9,5) = false);	--blocked down
+			assertTrue( g.getTurn() = 2);
+			assertTrue( g.movePiece(1,6) = true);
+			assertTrue( g.getTurn() = 1);
+			
+			assertTrue( g.movePiece(7,5) = true); 
+			assertTrue( g.movePiece(1,5) = true);
+			assertTrue( g.movePiece(6,5) = false); --blocked up
+			
+			--End Game Assessement
+			--1																		--2
+			assertTrue( g.checkWinner() = 0);
+			assertTrue( g.movePiece(7,6) = true); assertTrue( g.movePiece(1,6) = true);
+			assertTrue( g.movePiece(7,7) = true); assertTrue( g.movePiece(1,5) = true);
+			assertTrue( g.movePiece(7,8) = true); assertTrue( g.movePiece(1,6) = true);
+			assertTrue( g.movePiece(7,9) = true); assertTrue( g.movePiece(1,5) = true);
+			assertTrue( g.movePiece(6,9) = true); assertTrue( g.movePiece(1,6) = true);
+			assertTrue( g.movePiece(5,9) = true); assertTrue( g.movePiece(1,5) = true);
+			assertTrue( g.movePiece(4,9) = true); assertTrue( g.movePiece(1,6) = true);
+			assertTrue( g.movePiece(3,9) = true); assertTrue( g.movePiece(1,5) = true);
+			assertTrue( g.movePiece(2,9) = true); assertTrue( g.movePiece(1,6) = true);
+			assertTrue( g.checkWinner() = 0);
+			assertTrue( g.movePiece(1,9) = true); 
+			assertTrue( g.checkWinner() = 1);
+			
 		);
 		
 		

@@ -18,6 +18,33 @@ class Board
 			return self
 		);
 		
+		public Board: Matrix ==> Board
+		Board(b) == (
+			for all r in set { 1, ..., 9 } do (
+				for all c in set { 1, ..., 9 } do (
+					board(r)(c) := new Space(0, r, c);
+					
+					board(r)(c).setValue(b(r)(c).getValue());
+					board(r)(c).setCorner(b(r)(c).getCorner());
+					
+					board(r)(c).setPathUp(b(r)(c).getPathUp());
+					board(r)(c).setPathDown(b(r)(c).getPathDown());
+					board(r)(c).setPathLeft(b(r)(c).getPathLeft());
+					board(r)(c).setPathRight(b(r)(c).getPathRight());
+				)
+			);
+			return self
+		);
+		
+		
+		public Board: Board ==> Board
+		Board(b) == (
+			board := new Board(b.getBoard()).getBoard();
+			return self
+		);
+		
+		
+		
 		-- Getters
 		public getBoard: () ==> Matrix
 		getBoard() == return board
@@ -42,25 +69,28 @@ class Board
 			if board(r)(c).getValue() = 0 then (
 				if r = pl.getRow() then (
 					if c < pl.getCol() then (
-						if board(r)(c).getPathLeft() = false
+						if board(pl.getRow())(pl.getCol()).getPathLeft() = false
 							then ret := true
 					) else (
-						if board(r)(c).getPathRight() = false
+						if board(pl.getRow())(pl.getCol()).getPathRight() = false
 							then ret := true
 					)
 				);
 				
 				if c = pl.getCol() then (
 					if r < pl.getRow() then (
-						if board(r)(c).getPathUp() = false
+						if board(pl.getRow())(pl.getCol()).getPathUp() = false
 							then ret := true
 					) else (
-						if board(r)(c).getPathDown() = false
+						if board(pl.getRow())(pl.getCol()).getPathDown() = false
 							then ret := true
 					)
 				)
 			);
 			
+			if ret = true then
+				board(pl.getRow())(pl.getCol()).setValue(0);
+				
 			return ret
 		)
 		pre r in set { 1, ..., 9 }
