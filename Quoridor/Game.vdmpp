@@ -67,10 +67,6 @@ class Game
 		
 		public placeWall: int * int * int ==> bool
 		placeWall(r, c, dir) == (
-			-- UP = 1;
-			-- DOWN = 2;
-			-- LEFT = 3;
-			-- RIGHT = 4;
 			dcl ret: bool := false;
 			dcl b_temp: Board := new Board(board);
 			

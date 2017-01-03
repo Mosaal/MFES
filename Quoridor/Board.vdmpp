@@ -3,16 +3,18 @@ class Board
 		public Matrix = seq of seq of Space;
 
 	instance variables
-		private board: Matrix := [[], [], [], [], [], [], [], [], []];
+		private board: Matrix := [];
 	
 	operations
 		-- Constructor
 		public Board: () ==> Board
 		Board() == (
 			for all r in set { 1, ..., 9 } do (
+				dcl temp : seq of Space := [];
 				for all c in set { 1, ..., 9 } do (
-					board(r)(c) := new Space(0, r, c)
-				)
+					temp := temp ^ [ new Space(0, r, c) ];
+				);
+				board := board ^ [ temp ];
 			);
 			
 			return self
@@ -21,29 +23,31 @@ class Board
 		public Board: Matrix ==> Board
 		Board(b) == (
 			for all r in set { 1, ..., 9 } do (
+				dcl temp : seq of Space := [];
 				for all c in set { 1, ..., 9 } do (
-					board(r)(c) := new Space(0, r, c);
+					dcl s: Space := new Space(0, r, c);
+
+					s.setValue(b(r)(c).getValue());
+					s.setCorner(b(r)(c).getCorner());
 					
-					board(r)(c).setValue(b(r)(c).getValue());
-					board(r)(c).setCorner(b(r)(c).getCorner());
+					s.setPathUp(b(r)(c).getPathUp());
+					s.setPathDown(b(r)(c).getPathDown());
+					s.setPathLeft(b(r)(c).getPathLeft());
+					s.setPathRight(b(r)(c).getPathRight());
 					
-					board(r)(c).setPathUp(b(r)(c).getPathUp());
-					board(r)(c).setPathDown(b(r)(c).getPathDown());
-					board(r)(c).setPathLeft(b(r)(c).getPathLeft());
-					board(r)(c).setPathRight(b(r)(c).getPathRight());
-				)
+					temp := temp ^ [ s ];
+				);
+				board := board ^ [ temp ];
 			);
+			
 			return self
 		);
-		
 		
 		public Board: Board ==> Board
 		Board(b) == (
 			board := new Board(b.getBoard()).getBoard();
 			return self
 		);
-		
-		
 		
 		-- Getters
 		public getBoard: () ==> Matrix
@@ -104,17 +108,17 @@ class Board
 			-- RIGHT = 4;
 			
 			-- Se estiver nos limites do tabuleiro, algumas direcções são inválidas
-			if r = 1 and dir = 1 then
+			if r = 1 and dir = Space`UP then
 				return false;
-			if r = 9 and dir = 2 then
+			if r = 9 and dir = Space`DOWN then
 				return false;
-			if c = 1 and dir = 3 then
+			if c = 1 and dir = Space`LEFT then
 				return false;
-			if c = 9 and dir = 4 then
+			if c = 9 and dir = Space`RIGHT then
 				return false;
 			
 			-- Ver se os caminhos adjacentes estão vazios
-			if dir = 1 or dir = 2 then (
+			if dir = Space`UP or dir = Space`DOWN then (
 				if board(r)(c).getPathRight() = true then
 					return false;
 			) else (
@@ -123,52 +127,52 @@ class Board
 			);
 			
 			-- Ver se os caminhos em largura estão vazios
-			if dir = 1 then 
+			if dir = Space`UP then 
 				if board(r - 1)(c).getPathRight() = true then
 					return false;
-			if dir = 2 then 
+			if dir = Space`DOWN then 
 				if board(r + 1)(c).getPathRight() = true then
 					return false;
-			if dir = 3 then 
+			if dir = Space`LEFT then 
 				if board(r)(c - 1).getPathDown() = true then
 					return false;
-			if dir = 4 then 
+			if dir = Space`RIGHT then 
 				if board(r)(c + 1).getPathDown() = true then
 					return false;
 						
 						
 			-- Verificar que a nova parede não atravessa transversalmente outra parede
-			if dir = 1 then
+			if dir = Space`UP then
 				if board(r - 1)(c).getCorner() = true then 
 					return false;
-			if dir = 2 or dir = 4 then 
+			if dir = Space`DOWN or dir = Space`RIGHT then 
 				if board(r)(c).getCorner() = true then 
 					return false;
-			if dir = 3 then
+			if dir = Space`LEFT then
 				if board(r)(c - 1).getCorner() = true then 
 					return false;
 					
 					
 			-- Todos os caminhos estão livres, pode-se acrescentar uma parede
-			if dir = 1 then (
+			if dir = Space`UP then (
 				board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
 				board(r - 1)(c).setPathRight(true);		board(r - 1)(c + 1).setPathLeft(true);
 				board(r - 1)(c).setCorner(true);
 				return true;
 			);
-			if dir = 2 then (
+			if dir = Space`DOWN then (
 				board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
 				board(r + 1)(c).setPathRight(true);		board(r + 1)(c + 1).setPathLeft(true);
 				board(r)(c).setCorner(true);
 				return true;
 			);
-			if dir = 3 then (
+			if dir = Space`LEFT then (
 				board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
 				board(r)(c - 1).setPathDown(true);	board(r + 1)(c - 1).setPathUp(true);
 				board(r)(c - 1).setCorner(true);
 				return true;
 			);
-			if dir = 4 then (
+			if dir = Space`RIGHT then (
 				board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
 				board(r)(c + 1).setPathDown(true);	board(r + 1)(c + 1).setPathUp(true);
 				board(r)(c).setCorner(true);
