@@ -1,5 +1,6 @@
 package Gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -41,8 +42,8 @@ public class Canvas extends JPanel {
 		try {
 			tileImage = ImageIO.read(new File("images/tile.png"));
 			glowTileImage = ImageIO.read(new File("images/glowTile.png"));
-			player2Image = ImageIO.read(new File("images/redTile.png"));
 			player1Image = ImageIO.read(new File("images/greenTile.png"));
+			player2Image = ImageIO.read(new File("images/redTile.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -53,21 +54,21 @@ public class Canvas extends JPanel {
 				for (int i = 0; i < pawnGrid.length; i++) {
 					for (int j = 0; j < pawnGrid[i].length; j++) {
 						if (pawnGrid[i][j].contains(e.getX(), e.getY()))
-							System.out.println("Pawn cell: " + (j+1) + ", " + (i+1));
+							System.out.println("Pawn cell: " + j + ", " + i);
 					}
 				}
 				
 				for (int i = 0; i < wallsGridVer.length; i++) {
 					for (int j = 0; j < wallsGridVer[i].length; j++) {
 						if (wallsGridVer[i][j].contains(e.getX(), e.getY()))
-							System.out.println("Ver. wall cell: " + (j+1) + ", " + (i+1));
+							System.out.println("Ver. wall cell: " + j + ", " + i);
 					}
 				}
 				
 				for (int i = 0; i < wallsGridHor.length; i++) {
 					for (int j = 0; j < wallsGridHor[i].length; j++) {
 						if (wallsGridHor[i][j].contains(e.getX(), e.getY()))
-							System.out.println("Hor. wall cell: " + (j+1) + ", " + (i+1));
+							System.out.println("Hor. wall cell: " + j + ", " + i);
 					}
 				}
 			}
@@ -95,6 +96,13 @@ public class Canvas extends JPanel {
 		g.drawImage(player1Image, 4 * player1Image.getWidth(), 8 * player1Image.getHeight(), null);
 		g.drawImage(player2Image, 4 * player2Image.getWidth(), 0 * player2Image.getHeight(), null);
 		
+		// Draw glowing tiles
+		g.drawImage(glowTileImage, 3 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
+		g.drawImage(glowTileImage, 4 * glowTileImage.getWidth(), 7 * glowTileImage.getHeight(), null);
+		g.drawImage(glowTileImage, 5 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
+		
 		// Draw wall pieces
+		g.setColor(new Color(110, 110, 110));
+		g.fillRect(45, 5, 10, 90);
 	}
 }

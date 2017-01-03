@@ -19,6 +19,7 @@ public class QuoridorGUI extends JFrame {
 	private Canvas canvas;
 	private JPanel mainPanel;
 	private JPanel wallsPanel;
+	private JLabel turnLabel;
 	private JLabel numWallsP1;
 	private JLabel numWallsP2;
 	// private String[] options = { "Play Again", "Quit" };
@@ -46,10 +47,13 @@ public class QuoridorGUI extends JFrame {
 			}
 		});*/
 		
+		turnLabel = new JLabel("Turn: Player 1", SwingConstants.CENTER);
+		turnLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		numWallsP1 = new JLabel("Player 1 Walls: 10", SwingConstants.CENTER);
 		numWallsP2 = new JLabel("Player 2 Walls: 10", SwingConstants.CENTER);
-		numWallsP1.setBorder(new EmptyBorder(10, 10, 10, 10));
-		numWallsP2.setBorder(new EmptyBorder(10, 10, 10, 10));
+		numWallsP1.setBorder(new EmptyBorder(5, 5, 5, 5));
+		numWallsP2.setBorder(new EmptyBorder(5, 5, 5, 5));
 		numWallsP1.setForeground(new Color(0, 128, 0));
 		numWallsP2.setForeground(new Color(255, 0, 0));
 		
@@ -58,10 +62,15 @@ public class QuoridorGUI extends JFrame {
 		wallsPanel.add(numWallsP1);
 		wallsPanel.add(numWallsP2);
 		
+		JPanel topAuxPanel = new JPanel();
+		topAuxPanel.setLayout(new GridLayout(2, 1));
+		topAuxPanel.add(turnLabel);
+		topAuxPanel.add(wallsPanel);
+		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(auxPanel, BorderLayout.CENTER);
-		mainPanel.add(wallsPanel, BorderLayout.PAGE_START);
+		mainPanel.add(topAuxPanel, BorderLayout.PAGE_START);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int centerX = (int) screenSize.getWidth() / 2;
