@@ -143,6 +143,14 @@ public class Canvas extends JPanel {
 			for (int j = 0; j < 9; j++)
 				g.drawImage(tileImage, j * tileImage.getWidth(), i * tileImage.getHeight(), null);
 		
+		// Draw glowing tiles
+		if (waitingForClick) {
+			for (int i = 0; i < spaces.length; i++) {
+				Space temp = (Space) spaces[i];
+				g.drawImage(gTileImage, (temp.getCol().intValue() - 1) * gTileImage.getWidth(), (temp.getRow().intValue() - 1) * gTileImage.getHeight(), null);
+			}
+		}
+		
 		// Draw pawn pieces
 		int rowP1 = root.getGame().getPlayer1().getRow().intValue() - 1;
 		int colP1 = root.getGame().getPlayer1().getCol().intValue() - 1;
@@ -151,14 +159,6 @@ public class Canvas extends JPanel {
 		
 		g.drawImage(player1Image, colP1 * player1Image.getWidth(), rowP1 * player1Image.getHeight(), null);
 		g.drawImage(player2Image, colP2 * player2Image.getWidth(), rowP2 * player2Image.getHeight(), null);
-		
-		// Draw glowing tiles
-		if (waitingForClick) {
-			for (int i = 0; i < spaces.length; i++) {
-				Space temp = (Space) spaces[i];
-				g.drawImage(gTileImage, (temp.getCol().intValue() - 1) * gTileImage.getWidth(), (temp.getRow().intValue() - 1) * gTileImage.getHeight(), null);
-			}
-		}
 		
 		// Draw wall pieces
 		g.setColor(new Color(110, 110, 110));
