@@ -8,12 +8,12 @@ class Player
 	operations
 		-- Constructor
 		public Player: int * int * int ==> Player
-		Player(v, r, c) == (
-			row := r;
+		Player(v, r, c) == 
+		(	row := r;
 			col := c;
 			value := v;
 			
-			return self
+			return self;
 		)
 		pre v in set { 1, 2 }
 		and r in set { 1, ..., 9 }
@@ -21,28 +21,28 @@ class Player
 		
 		-- Getters
 		public getRow: () ==> int
-		getRow() == return row
+		getRow() == (return row;)
 		post RESULT = row;
 		
 		public getCol: () ==> int
-		getCol() == return col
+		getCol() == (return col;)
 		post RESULT = col;
 		
 		public getValue: () ==> int
-		getValue() == return value
+		getValue() == (return value;)
 		post RESULT = value;
 		
 		public getNumWalls: () ==> int
-		getNumWalls() == return numWalls
+		getNumWalls() == (return numWalls;)
 		post RESULT = numWalls;
 		
 		-- Setters
 		public setRow: int ==> ()
-		setRow(r) == row := r
+		setRow(r) == (row := r;)
 		pre r in set { 1, ..., 9 };
 		
 		public setCol: int ==> ()
-		setCol(c) == col := c
+		setCol(c) == (col := c;)
 		pre c in set { 1, ..., 9 };
 		
 		public decNumWalls: () ==> ()

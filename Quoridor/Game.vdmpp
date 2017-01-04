@@ -11,8 +11,8 @@ class Game
 		Game() == (
 			turn := 1;
 			board := new Board();
-			player2 := new Player(2, 1, 5);
-			player1 := new Player(1, 9, 5);
+			player2 := new Player(2, 1, 5);		board.getBoard()(1)(5).setValue(2);
+			player1 := new Player(1, 9, 5);		board.getBoard()(9)(5).setValue(1);
 			
 			return self
 		);
