@@ -8,24 +8,23 @@ class Board
 	operations
 		-- Constructor
 		public Board: () ==> Board
-		Board() == (
-			for all r in set { 1, ..., 9 } do (
-				dcl temp : seq of Space := [];
-				for all c in set { 1, ..., 9 } do (
+		Board() ==
+		(	for all r in set { 1, ..., 9 } do 
+			( dcl temp : seq of Space := [];
+				for all c in set { 1, ..., 9 } do 
 					temp := temp ^ [ new Space(0, r, c) ];
-				);
 				board := board ^ [ temp ];
 			);
 			
-			return self
+			return self;
 		);
 		
 		public Board: Matrix ==> Board
-		Board(b) == (
-			for all r in set { 1, ..., 9 } do (
-				dcl temp : seq of Space := [];
-				for all c in set { 1, ..., 9 } do (
-					dcl s: Space := new Space(0, r, c);
+		Board(b) == 
+		(	for all r in set { 1, ..., 9 } do 
+			( dcl temp : seq of Space := [];
+				for all c in set { 1, ..., 9 } do 
+				( dcl s: Space := new Space(0, r, c);
 
 					s.setValue(b(r)(c).getValue());
 					s.setCorner(b(r)(c).getCorner());
@@ -40,18 +39,18 @@ class Board
 				board := board ^ [ temp ];
 			);
 			
-			return self
+			return self;
 		);
 		
 		public Board: Board ==> Board
-		Board(b) == (
-			board := new Board(b.getBoard()).getBoard();
-			return self
+		Board(b) == 
+		( board := new Board(b.getBoard()).getBoard();
+			return self;
 		);
 		
 		-- Getters
 		public getBoard: () ==> Matrix
-		getBoard() == return board
+		getBoard() == (return board;)
 		post RESULT = board;
 		
 		-- Setters
@@ -63,8 +62,8 @@ class Board
 		
 		-- Logic functions
 		public movePiece: int * int * Player ==> bool
-		movePiece(r, c, pl) == (
-			dcl ret: bool := false;
+		movePiece(r, c, pl) == 
+		( dcl ret: bool := false;
 		
 			if r = pl.getRow() then
 				if c = pl.getCol() then
@@ -75,24 +74,24 @@ class Board
 			if pl.getRow() = r and c - pl.getCol() > 1 then return ret;
 			if pl.getCol() = c and r - pl.getRow() > 1 then return ret;
 			
-			if board(r)(c).getValue() = 0 then (
-				if r = pl.getRow() then (
-					if c < pl.getCol() then (
-						if board(pl.getRow())(pl.getCol()).getPathLeft() = false
-							then ret := true
-					) else (
-						if board(pl.getRow())(pl.getCol()).getPathRight() = false
-							then ret := true
+			if board(r)(c).getValue() = 0 then 
+			( if r = pl.getRow() then 
+				( if c < pl.getCol() then 
+					( if board(pl.getRow())(pl.getCol()).getPathLeft() = false
+							then ret := true;
+					) else 
+					( if board(pl.getRow())(pl.getCol()).getPathRight() = false
+							then ret := true;
 					)
 				);
 				
-				if c = pl.getCol() then (
-					if r < pl.getRow() then (
-						if board(pl.getRow())(pl.getCol()).getPathUp() = false
-							then ret := true
-					) else (
-						if board(pl.getRow())(pl.getCol()).getPathDown() = false
-							then ret := true
+				if c = pl.getCol() then 
+				(	if r < pl.getRow() then 
+					( if board(pl.getRow())(pl.getCol()).getPathUp() = false
+							then ret := true;
+					) else 
+					( if board(pl.getRow())(pl.getCol()).getPathDown() = false
+							then ret := true;
 					)
 				)
 			);
@@ -100,7 +99,7 @@ class Board
 			if ret = true then
 				board(pl.getRow())(pl.getCol()).setValue(0);
 				
-			return ret
+			return ret;
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };
@@ -118,11 +117,11 @@ class Board
 				return false;
 			
 			-- Ver se os caminhos adjacentes estão vazios
-			if dir = Space`UP or dir = Space`DOWN then (
-				if board(r)(c).getPathRight() = true then
+			if dir = Space`UP or dir = Space`DOWN then 
+			( if board(r)(c).getPathRight() = true then
 					return false;
-			) else (
-				if board(r)(c).getPathDown() = true then
+			) else 
+			( if board(r)(c).getPathDown() = true then
 					return false;
 			);
 			
@@ -152,26 +151,26 @@ class Board
 					return false;
 					
 			-- Todos os caminhos estão livres, pode-se acrescentar uma parede
-			if dir = Space`UP then (
-				board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
+			if dir = Space`UP then 
+			( board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
 				board(r - 1)(c).setPathRight(true);		board(r - 1)(c + 1).setPathLeft(true);
 				board(r - 1)(c).setCorner(true);
 				return true;
 			);
-			if dir = Space`DOWN then (
-				board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
+			if dir = Space`DOWN then 
+			( board(r)(c).setPathRight(true);				board(r)(c + 1).setPathLeft(true);
 				board(r + 1)(c).setPathRight(true);		board(r + 1)(c + 1).setPathLeft(true);
 				board(r)(c).setCorner(true);
 				return true;
 			);
-			if dir = Space`LEFT then (
-				board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
+			if dir = Space`LEFT then 
+			(	board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
 				board(r)(c - 1).setPathDown(true);	board(r + 1)(c - 1).setPathUp(true);
 				board(r)(c - 1).setCorner(true);
 				return true;
 			);
-			if dir = Space`RIGHT then (
-				board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
+			if dir = Space`RIGHT then 
+			(	board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
 				board(r)(c + 1).setPathDown(true);	board(r + 1)(c + 1).setPathUp(true);
 				board(r)(c).setCorner(true);
 				return true;

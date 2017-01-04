@@ -8,49 +8,49 @@ class Game
 	operations
 		-- Constructor
 		public Game: () ==> Game
-		Game() == (
-			turn := 1;
+		Game() == 
+		(	turn := 1;
 			board := new Board();
 			player2 := new Player(2, 1, 5);		board.getBoard()(1)(5).setValue(2);
 			player1 := new Player(1, 9, 5);		board.getBoard()(9)(5).setValue(1);
 			
-			return self
+			return self;
 		);
 		
 		-- Getters
 		public getBoard: () ==> Board
-		getBoard() == return board
+		getBoard() == (return board;)
 		post RESULT = board;
 		
 		public getPlayer1: () ==> Player
-		getPlayer1() == return player1
+		getPlayer1() == (return player1;)
 		post RESULT = player1;
 		
 		public getPlayer2: () ==> Player
-		getPlayer2() == return player2
+		getPlayer2() == (return player2;)
 		post RESULT = player2;
 	
 		public getTurn: () ==> int
-		getTurn() == return turn
+		getTurn() == (return turn;)
 		post RESULT = turn;
 	
 		-- Logic functions
 		public movePiece: int * int ==> bool
-		movePiece(r, c) == (
-			dcl ret: bool := false;
+		movePiece(r, c) == 
+		(	dcl ret: bool := false;
 		
-			if turn = 1 then (
-				if board.movePiece(r, c, player1) = true then (
-					ret := true;
+			if turn = 1 then
+			(	if board.movePiece(r, c, player1) = true then
+					(ret := true;
 					player1.setRow(r);
 					player1.setCol(c);
 					board.setValue(player1.getValue(), r, c);
 				)
 			);
 			
-			if turn = 2 then (
-				if board.movePiece(r, c, player2) = true then (
-					ret := true;
+			if turn = 2 then 
+			(	if board.movePiece(r, c, player2) = true then 
+				(	ret := true;
 					player2.setRow(r);
 					player2.setCol(c);
 					board.setValue(player2.getValue(), r, c);
@@ -60,24 +60,24 @@ class Game
 			if ret = true then
 				switchTurn();
 				
-			return ret
+			return ret;
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 };		
 		
 		public placeWall: int * int * int ==> bool
-		placeWall(r, c, dir) == (
-			dcl ret: bool := false;
+		placeWall(r, c, dir) == 
+		(	dcl ret: bool := false;
 			dcl b_temp: Board := new Board(board);
 			
-			if turn = 1 then (
-				if player1.getNumWalls() > 0 then (
-					if b_temp.placeWall(r,c,dir) = true then(
-						if checkPath(b_temp, 1, b_temp.getBoard()(player1.getRow())(player1.getCol()) ) = true 
+			if turn = 1 then 
+				( if player1.getNumWalls() > 0 then
+				(	if b_temp.placeWall(r,c,dir) = true then
+					(	if checkPath(b_temp, 1, b_temp.getBoard()(player1.getRow())(player1.getCol()) ) = true 
 								and checkPath(b_temp, 9, b_temp.getBoard()(player2.getRow())(player2.getCol())) = true 
-							then (
-								if board.placeWall(r, c, dir) = true then (
-									ret := true;
+							then 
+							(	if board.placeWall(r, c, dir) = true then 
+							(	ret := true;
 									player1.decNumWalls()
 							)
 						)
@@ -85,14 +85,14 @@ class Game
 				)
 			);
 			
-			if turn = 2 then (
-				if player2.getNumWalls() > 0 then (
-					if b_temp.placeWall(r,c,dir) = true then(
-						if checkPath(b_temp, 1, b_temp.getBoard()(player1.getRow())(player1.getCol()) ) = true 
+			if turn = 2 then 
+			(	if player2.getNumWalls() > 0 then 
+				(	if b_temp.placeWall(r,c,dir) = true 
+					then(	if checkPath(b_temp, 1, b_temp.getBoard()(player1.getRow())(player1.getCol()) ) = true 
 							and checkPath(b_temp, 9, b_temp.getBoard()(player2.getRow())(player2.getCol())) = true 
-							then (
-									if board.placeWall(r, c, dir) = true then (
-										ret := true;
+							then 
+							(	if board.placeWall(r, c, dir) = true then 
+							(	ret := true;
 										player2.decNumWalls()
 							)
 						)
@@ -103,27 +103,27 @@ class Game
 			if ret = true then
 				switchTurn();
 				
-			return ret
+			return ret;
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 }
 		and dir in set { 1, 2, 3, 4 };
 		
 		public checkWinner: () ==> int
-		checkWinner() == (
-			dcl ret: int := 0;
+		checkWinner() == 
+		(	dcl ret: int := 0;
 		
 			if player1.getRow() = 1 then 
 				ret := player1.getValue();
 			if player2.getRow() = 9 then 
 				ret := player2.getValue();
 			
-			return ret
+			return ret;
 		);
 		
 		private switchTurn: () ==> ()
-		switchTurn() == (
-			if turn = player1.getValue() then
+		switchTurn() == 
+		(	if turn = player1.getValue() then
 				turn := player2.getValue()
 			else
 				turn := player1.getValue();
@@ -142,7 +142,7 @@ class Game
 			if b.getBoard()(currentrow)(currentcol).getPathLeft() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol - 1)];
 			if b.getBoard()(currentrow)(currentcol).getPathRight() = false then newpos := newpos ^ [board.getBoard()(currentrow)(currentcol + 1)];
 			
-			return newpos
+			return newpos;
 		);
 		
 		-- operação que verifica se existe um caminho possível para chegar ao lado pretendido do tabuleiro
@@ -156,22 +156,22 @@ class Game
 			visited := visited union {s};
 			pathBoard := pathBoard ^ [s];
 			
-			while len pathBoard > 0 do (
-				possiblePaths := getNewPossibleSpaces(b, pathBoard(1)); -- sequência com os espeços adjancentes para onde é possível ir
+			while len pathBoard > 0 do 
+			(	possiblePaths := getNewPossibleSpaces(b, pathBoard(1)); -- sequência com os espeços adjancentes para onde é possível ir
 				currentrow := pathBoard(1).getRow();
 				pathBoard := tl pathBoard; -- elimina o primeiro elemento do pathBoard
 				
 				if currentrow = er then return true; -- se a linha atual fôr a linha igual à do fim do path, existe path possível
 				
-				for all i in set { 1, ..., len possiblePaths } do (  
-					if possiblePaths(i) not in set visited then ( -- se o novo espaço ainda não foi verificado pelo algoritmo, ele é adicionado 
+				for all i in set { 1, ..., len possiblePaths } do 
+				(	if possiblePaths(i) not in set visited then ( -- se o novo espaço ainda não foi verificado pelo algoritmo, ele é adicionado 
 						visited := visited union {possiblePaths(i)};
 						pathBoard := pathBoard ^ [possiblePaths(i)]
 					)
 				)
 			);
 			
-			return false
+			return false;
 		)
 		pre er in set { 1, 9 };
 end Game
