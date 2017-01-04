@@ -92,6 +92,9 @@ public class Canvas extends JPanel {
 						if (wallsGridVer[i][j].contains(e.getX(), e.getY())) {
 							if (root.getGame().placeWall((Number) (i + 1), (Number) (j + 1), Space.DOWN))
 								wallsGridVer[i][j].setTaken(true);
+							
+							if (waitingForClick)
+								waitingForClick = false;
 						}
 					}
 				}
@@ -101,6 +104,9 @@ public class Canvas extends JPanel {
 						if (wallsGridHor[i][j].contains(e.getX(), e.getY())) {
 							if (root.getGame().placeWall((Number) (i + 1), (Number) (j + 1), Space.RIGHT))
 								wallsGridHor[i][j].setTaken(true);
+							
+							if (waitingForClick)
+								waitingForClick = false;
 						}
 					}
 				}
