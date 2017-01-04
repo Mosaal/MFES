@@ -14,8 +14,8 @@ class Space
 	operations
 		-- Constructor
 		public Space: int * int * int ==> Space
-		Space(v, r, c) == (
-			row := r;
+		Space(v, r, c) == 
+		(	row := r;
 			col := c;
 			value := v;
 			
@@ -25,7 +25,7 @@ class Space
 			if c = 9 then paths(RIGHT) := true;
 			if r = 9 or c = 9 then corner := true;
 			
-			return self
+			return self;
 		)
 		pre v in set { 0, 1, 2 }
 		and r in set { 1, ..., 9 }
@@ -33,19 +33,19 @@ class Space
 		
 		-- Getters
 		public getRow: () ==> int
-		getRow() == return row
+		getRow() == (return row;)
 		post RESULT = row;
 		
 		public getCol: () ==> int
-		getCol() == return col
+		getCol() == (return col;)
 		post RESULT = col;
 		
 		public getValue: () ==> int
-		getValue() == return value
+		getValue() == (return value;)
 		post RESULT = value;
 		
 		public getCorner: () ==> bool
-		getCorner() == return corner
+		getCorner() == (return corner;)
 		post RESULT = corner;
 		
 		public getPathUp: () ==> bool
@@ -66,7 +66,7 @@ class Space
 		
 		-- Setters
 		public setValue: int ==> ()
-		setValue(v) == value := v
+		setValue(v) == (value := v;)
 		pre v in set { 0, 1, 2 };
 		
 		public setCorner: bool ==> ()
