@@ -88,6 +88,7 @@ class Test
 				--Parede a atrevessar
 			assertTrue( b1.placeWall(1,2,4) = true);
 			assertTrue( b1.placeWall(2,2,4) = false);
+			assertTrue( b1.placeWall(2,3,3) = false);
 			assertTrue( b1.placeWall(3,2,4) = true);
 
 			
@@ -103,9 +104,14 @@ class Test
 			b2 := new Board();
 			assertTrue( b1.placeWall(2,3,4) = false);
 			assertTrue( b2.placeWall(2,3,4) = true);
+			b2 := new Board();
+			assertTrue( b1.placeWall(2,4,3) = false);
+			assertTrue( b2.placeWall(2,4,3) = true);
+			
 				--Parede a atrevessar
 			assertTrue( b1.placeWall(2,1,2) = true);
 			assertTrue( b1.placeWall(2,2,2) = false);
+			assertTrue( b1.placeWall(3,2,1) = false);
 			assertTrue( b1.placeWall(2,3,2) = true);
 		);
 		
@@ -161,8 +167,12 @@ class Test
 			
 			--Movement and Turn assessement
 			assertTrue( g.movePiece(9,6) = false);  --blocked right
+			assertTrue( g.movePiece(9,7) = false);  --too far
 			assertTrue( g.getTurn() = 1);
 			assertTrue( g.movePiece(9,4) = false); --blocked left
+			assertTrue( g.movePiece(9,3) = false);  --too far
+			assertTrue( g.movePiece(1,5) = false);  --too far
+			assertTrue( g.movePiece(9,5) = false); --same space
 			assertTrue( g.getTurn() = 1);
 			assertTrue( g.movePiece(8,5) = true);
 			assertTrue( g.getTurn() = 2);

@@ -77,21 +77,21 @@ class Board
 			if board(r)(c).getValue() = 0 then 
 			( if r = pl.getRow() then 
 				( if c < pl.getCol() then 
-					( if board(pl.getRow())(pl.getCol()).getPathLeft() = false
-							then ret := true;
+					( if board(pl.getRow())(pl.getCol()).getPathLeft() = false then 
+						ret := true;
 					) else 
-					( if board(pl.getRow())(pl.getCol()).getPathRight() = false
-							then ret := true;
+					( if board(pl.getRow())(pl.getCol()).getPathRight() = false then 
+						ret := true;
 					)
 				);
 				
 				if c = pl.getCol() then 
 				(	if r < pl.getRow() then 
-					( if board(pl.getRow())(pl.getCol()).getPathUp() = false
-							then ret := true;
+					( if board(pl.getRow())(pl.getCol()).getPathUp() = false then 
+						ret := true;
 					) else 
-					( if board(pl.getRow())(pl.getCol()).getPathDown() = false
-							then ret := true;
+					( if board(pl.getRow())(pl.getCol()).getPathDown() = false then 
+						ret := true;
 					)
 				)
 			);
@@ -168,15 +168,13 @@ class Board
 				board(r)(c - 1).setPathDown(true);	board(r + 1)(c - 1).setPathUp(true);
 				board(r)(c - 1).setCorner(true);
 				return true;
-			);
-			if dir = Space`RIGHT then 
+			) else 
 			(	board(r)(c).setPathDown(true);			board(r + 1)(c).setPathUp(true);
 				board(r)(c + 1).setPathDown(true);	board(r + 1)(c + 1).setPathUp(true);
 				board(r)(c).setCorner(true);
 				return true;
 			);
-
-			return false;
+			
 		)
 		pre r in set { 1, ..., 9 }
 		and c in set { 1, ..., 9 }
