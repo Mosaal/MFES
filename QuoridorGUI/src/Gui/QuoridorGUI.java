@@ -20,8 +20,10 @@ public class QuoridorGUI extends JFrame {
 	
 	private Game game;
 	private Canvas canvas;
+	
 	private JPanel mainPanel;
 	private JPanel wallsPanel;
+	
 	private JLabel turnLabel;
 	private JLabel numWallsP1;
 	private JLabel numWallsP2;

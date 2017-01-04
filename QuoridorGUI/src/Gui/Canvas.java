@@ -22,13 +22,16 @@ public class Canvas extends JPanel {
 
 	private Object[] spaces;
 	private QuoridorGUI root;
+	
 	private Tile[][] pawnGrid;
 	private Tile[][] wallsGridVer;
 	private Tile[][] wallsGridHor;
+	
 	private BufferedImage tileImage;
 	private BufferedImage gTileImage;
 	private BufferedImage player1Image;
 	private BufferedImage player2Image;
+	
 	private boolean waitingForClick = false;
 	private String[] options = { "Play Again", "Quit" };
 	
