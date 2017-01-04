@@ -79,7 +79,7 @@ public class Game {
     if (Utils.equals(turn, 1L)) {
       if (player1.getNumWalls().longValue() > 0L) {
         if (Utils.equals(b_temp.placeWall(r, c, dir), true)) {
-          Boolean andResult_13 = false;
+          Boolean andResult_17 = false;
 
           if (Utils.equals(
               checkPath(
@@ -99,11 +99,11 @@ public class Game {
                             ((VDMSeq) Utils.get(b_temp.getBoard(), player2.getRow())),
                             player2.getCol()))),
                 true)) {
-              andResult_13 = true;
+              andResult_17 = true;
             }
           }
 
-          if (andResult_13) {
+          if (andResult_17) {
             if (Utils.equals(board.placeWall(r, c, dir), true)) {
               ret = true;
               player1.decNumWalls();
@@ -116,7 +116,7 @@ public class Game {
     if (Utils.equals(turn, 2L)) {
       if (player2.getNumWalls().longValue() > 0L) {
         if (Utils.equals(b_temp.placeWall(r, c, dir), true)) {
-          Boolean andResult_14 = false;
+          Boolean andResult_18 = false;
 
           if (Utils.equals(
               checkPath(
@@ -136,11 +136,11 @@ public class Game {
                             ((VDMSeq) Utils.get(b_temp.getBoard(), player2.getRow())),
                             player2.getCol()))),
                 true)) {
-              andResult_14 = true;
+              andResult_18 = true;
             }
           }
 
-          if (andResult_14) {
+          if (andResult_18) {
             if (Utils.equals(board.placeWall(r, c, dir), true)) {
               ret = true;
               player2.decNumWalls();

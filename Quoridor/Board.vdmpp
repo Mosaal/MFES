@@ -69,8 +69,11 @@ class Board
 			if r = pl.getRow() then
 				if c = pl.getCol() then
 					return ret;
-					
-			if abs pl.getRow() - r > 1 or abs pl.getCol() - c > 1 then return ret;
+			
+			if pl.getRow() = r and pl.getCol() - c > 1 then return ret;
+			if pl.getCol() = c and pl.getRow() - r > 1 then return ret;
+			if pl.getRow() = r and c - pl.getCol() > 1 then return ret;
+			if pl.getCol() = c and r - pl.getRow() > 1 then return ret;
 			
 			if board(r)(c).getValue() = 0 then (
 				if r = pl.getRow() then (
@@ -104,11 +107,6 @@ class Board
 		
 		public placeWall: int * int * int ==> bool
 		placeWall(r, c, dir) == (		
-			-- UP = 1;
-			-- DOWN = 2;
-			-- LEFT = 3;
-			-- RIGHT = 4;
-			
 			-- Se estiver nos limites do tabuleiro, algumas direcções são inválidas
 			if r = 1 and dir = Space`UP then
 				return false;
@@ -141,8 +139,7 @@ class Board
 			if dir = Space`RIGHT then 
 				if board(r)(c + 1).getPathDown() = true then
 					return false;
-						
-						
+								
 			-- Verificar que a nova parede não atravessa transversalmente outra parede
 			if dir = Space`UP then
 				if board(r - 1)(c).getCorner() = true then 
@@ -153,7 +150,6 @@ class Board
 			if dir = Space`LEFT then
 				if board(r)(c - 1).getCorner() = true then 
 					return false;
-					
 					
 			-- Todos os caminhos estão livres, pode-se acrescentar uma parede
 			if dir = Space`UP then (

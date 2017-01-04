@@ -4,28 +4,33 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Quoridor.Player;
 import Quoridor.Space;
 
 public class Canvas extends JPanel {
 
 	private static final long serialVersionUID = 3640767985329569838L;
 
+	private Object[] spaces;
 	private QuoridorGUI root;
 	private Tile[][] pawnGrid;
 	private Tile[][] wallsGridVer;
 	private Tile[][] wallsGridHor;
 	private BufferedImage tileImage;
-	private BufferedImage glowTileImage;
+	private BufferedImage gTileImage;
 	private BufferedImage player1Image;
 	private BufferedImage player2Image;
 	private boolean waitingForClick = false;
+	private String[] options = { "Play Again", "Quit" };
 	
 	public Canvas(QuoridorGUI root) {
 		this.root = root;
@@ -47,7 +52,7 @@ public class Canvas extends JPanel {
 		
 		try {
 			tileImage = ImageIO.read(new File("images/tile.png"));
-			glowTileImage = ImageIO.read(new File("images/glowTile.png"));
+			gTileImage = ImageIO.read(new File("images/glowTile.png"));
 			player1Image = ImageIO.read(new File("images/greenTile.png"));
 			player2Image = ImageIO.read(new File("images/redTile.png"));
 		} catch (IOException e) {
@@ -60,13 +65,20 @@ public class Canvas extends JPanel {
 				for (int i = 0; i < pawnGrid.length; i++) {
 					for (int j = 0; j < pawnGrid[i].length; j++) {
 						if (pawnGrid[i][j].contains(e.getX(), e.getY())) {
-							System.out.println("Pawn cell: " + (i + 1) + ", " + (j + 1));
-							
 							if (waitingForClick) {
 								waitingForClick = false;
-								root.getGame().movePiece((Number) j, (Number) i);
+								root.getGame().movePiece((Number) (i + 1), (Number) (j + 1));
 							} else {
-								// TODO
+								int turn = root.getGame().getTurn().intValue();
+								spaces = root.getGame().getNewPossibleSpaces(root.getGame().getBoard(), new Space(0, (i + 1), (j + 1))).toArray();
+								
+								Player p1 = root.getGame().getPlayer1();
+								if (turn == 1 && p1.getRow().intValue() == i + 1 && p1.getCol().intValue() == j + 1)
+									waitingForClick = true;
+								
+								Player p2 = root.getGame().getPlayer2();
+								if (turn == 2 && p2.getRow().intValue() == i + 1 && p2.getCol().intValue() == j + 1)
+									waitingForClick = true;
 							}
 						}
 					}
@@ -75,8 +87,6 @@ public class Canvas extends JPanel {
 				for (int i = 0; i < wallsGridVer.length; i++) {
 					for (int j = 0; j < wallsGridVer[i].length; j++) {
 						if (wallsGridVer[i][j].contains(e.getX(), e.getY())) {
-							System.out.println("Ver. wall cell: " + (i + 1) + ", " + (j + 1));
-							
 							if (root.getGame().placeWall((Number) (i + 1), (Number) (j + 1), Space.DOWN))
 								wallsGridVer[i][j].setTaken(true);
 						}
@@ -86,8 +96,6 @@ public class Canvas extends JPanel {
 				for (int i = 0; i < wallsGridHor.length; i++) {
 					for (int j = 0; j < wallsGridHor[i].length; j++) {
 						if (wallsGridHor[i][j].contains(e.getX(), e.getY())) {
-							System.out.println("Hor. wall cell: " + (i + 1) + ", " + (j + 1));
-							
 							if (root.getGame().placeWall((Number) (i + 1), (Number) (j + 1), Space.RIGHT))
 								wallsGridHor[i][j].setTaken(true);
 						}
@@ -96,6 +104,21 @@ public class Canvas extends JPanel {
 				
 				repaint();
 				root.updateInfo();
+				
+				int winner = root.getGame().checkWinner().intValue();
+				if (winner == 1 || winner == 2) {
+					int n = JOptionPane.showOptionDialog(root, "Winner: Player " + winner, "Game Over",
+							 JOptionPane.YES_NO_CANCEL_OPTION,
+							 JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
+					
+					if (n == 0) {
+						root.resetGame();
+						repaint();
+						root.updateInfo();
+					} else {
+						root.dispatchEvent(new WindowEvent(root, WindowEvent.WINDOW_CLOSING));
+					}
+				}
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {}
@@ -128,11 +151,11 @@ public class Canvas extends JPanel {
 		
 		// Draw glowing tiles
 		if (waitingForClick) {
-			// TODO
+			for (int i = 0; i < spaces.length; i++) {
+				Space temp = (Space) spaces[i];
+				g.drawImage(gTileImage, (temp.getCol().intValue() - 1) * gTileImage.getWidth(), (temp.getRow().intValue() - 1) * gTileImage.getHeight(), null);
+			}
 		}
-		// g.drawImage(glowTileImage, 3 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
-		// g.drawImage(glowTileImage, 4 * glowTileImage.getWidth(), 7 * glowTileImage.getHeight(), null);
-		// g.drawImage(glowTileImage, 5 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
 		
 		// Draw wall pieces
 		g.setColor(new Color(110, 110, 110));

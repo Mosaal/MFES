@@ -25,7 +25,6 @@ public class QuoridorGUI extends JFrame {
 	private JLabel turnLabel;
 	private JLabel numWallsP1;
 	private JLabel numWallsP2;
-	// private String[] options = { "Play Again", "Quit" };
 	
 	public QuoridorGUI() {
 		super("Quoridor");
@@ -40,17 +39,6 @@ public class QuoridorGUI extends JFrame {
 		auxPanel.setBackground(new Color(71, 164, 201));
 		auxPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		auxPanel.add(canvas, BorderLayout.CENTER);
-		
-		/*canvas.add(b);
-		b.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int n = JOptionPane.showOptionDialog(frame, "Winner: ", "Game Over",
-						 JOptionPane.YES_NO_CANCEL_OPTION,
-						 JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
-				System.out.println(n);
-			}
-		});*/
 		
 		turnLabel = new JLabel("Turn: Player " + game.getTurn(), SwingConstants.CENTER);
 		turnLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,6 +79,10 @@ public class QuoridorGUI extends JFrame {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public void resetGame() {
+		game = new Game();
 	}
 	
 	public void updateInfo() {

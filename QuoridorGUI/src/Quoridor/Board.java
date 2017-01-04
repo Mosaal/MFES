@@ -82,6 +82,54 @@ public class Board {
       }
     }
 
+    Boolean andResult_4 = false;
+
+    if (Utils.equals(pl.getRow(), r)) {
+      if (pl.getCol().longValue() - c.longValue() > 1L) {
+        andResult_4 = true;
+      }
+    }
+
+    if (andResult_4) {
+      return ret;
+    }
+
+    Boolean andResult_5 = false;
+
+    if (Utils.equals(pl.getCol(), c)) {
+      if (pl.getRow().longValue() - r.longValue() > 1L) {
+        andResult_5 = true;
+      }
+    }
+
+    if (andResult_5) {
+      return ret;
+    }
+
+    Boolean andResult_6 = false;
+
+    if (Utils.equals(pl.getRow(), r)) {
+      if (c.longValue() - pl.getCol().longValue() > 1L) {
+        andResult_6 = true;
+      }
+    }
+
+    if (andResult_6) {
+      return ret;
+    }
+
+    Boolean andResult_7 = false;
+
+    if (Utils.equals(pl.getCol(), c)) {
+      if (r.longValue() - pl.getRow().longValue() > 1L) {
+        andResult_7 = true;
+      }
+    }
+
+    if (andResult_7) {
+      return ret;
+    }
+
     if (Utils.equals(((Space) Utils.get(((VDMSeq) Utils.get(board, r)), c)).getValue(), 0L)) {
       if (Utils.equals(r, pl.getRow())) {
         if (c.longValue() < pl.getCol().longValue()) {
@@ -131,51 +179,51 @@ public class Board {
 
   public Boolean placeWall(final Number r, final Number c, final Number dir) {
 
-    Boolean andResult_6 = false;
+    Boolean andResult_10 = false;
 
     if (Utils.equals(r, 1L)) {
       if (Utils.equals(dir, Space.UP)) {
-        andResult_6 = true;
+        andResult_10 = true;
       }
     }
 
-    if (andResult_6) {
+    if (andResult_10) {
       return false;
     }
 
-    Boolean andResult_7 = false;
+    Boolean andResult_11 = false;
 
     if (Utils.equals(r, 9L)) {
       if (Utils.equals(dir, Space.DOWN)) {
-        andResult_7 = true;
+        andResult_11 = true;
       }
     }
 
-    if (andResult_7) {
+    if (andResult_11) {
       return false;
     }
 
-    Boolean andResult_8 = false;
+    Boolean andResult_12 = false;
 
     if (Utils.equals(c, 1L)) {
       if (Utils.equals(dir, Space.LEFT)) {
-        andResult_8 = true;
+        andResult_12 = true;
       }
     }
 
-    if (andResult_8) {
+    if (andResult_12) {
       return false;
     }
 
-    Boolean andResult_9 = false;
+    Boolean andResult_13 = false;
 
     if (Utils.equals(c, 9L)) {
       if (Utils.equals(dir, Space.RIGHT)) {
-        andResult_9 = true;
+        andResult_13 = true;
       }
     }
 
-    if (andResult_9) {
+    if (andResult_13) {
       return false;
     }
 
