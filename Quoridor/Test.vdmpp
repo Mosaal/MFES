@@ -177,7 +177,7 @@ class Test
 			assertTrue( g.movePiece(1,5) = true);
 			assertTrue( g.movePiece(6,5) = false); --blocked up
 			
-			--End Game Assessement
+			--Check Winner for Player 1
 			--1																		--2
 			assertTrue( g.checkWinner() = 0);
 			assertTrue( g.movePiece(7,6) = true); assertTrue( g.movePiece(1,6) = true);
@@ -200,6 +200,20 @@ class Test
 			temp_c1 := g.getPlayer1().getCol(); temp_c2 := g.getPlayer2().getCol(); --Should be at 1,2
 			assertTrue( g.getBoard().getBoard()(temp_r1)(temp_c1).getValue() = g.getPlayer1().getValue() );
 			assertTrue( g.getBoard().getBoard()(temp_r2)(temp_c2).getValue() = g.getPlayer2().getValue() );
+			
+			--Check Winner for Player 2
+			g := new Game();
+			--1																		--2
+			assertTrue( g.movePiece(9,6) = true);	assertTrue( g.movePiece(2,5) = true);	
+			assertTrue( g.movePiece(9,7) = true); assertTrue( g.movePiece(3,5) = true);
+			assertTrue( g.movePiece(9,8) = true); assertTrue( g.movePiece(4,5) = true);
+			assertTrue( g.movePiece(9,9) = true); assertTrue( g.movePiece(5,5) = true);
+			assertTrue( g.movePiece(9,8) = true); assertTrue( g.movePiece(6,5) = true);
+			assertTrue( g.movePiece(9,9) = true); assertTrue( g.movePiece(7,5) = true);
+			assertTrue( g.movePiece(9,8) = true); assertTrue( g.movePiece(8,5) = true);
+			assertTrue( g.movePiece(9,9) = true); assertTrue( g.movePiece(9,5) = true);
+			assertTrue( g.checkWinner() = 2);
+			
 			
 		);
 		
