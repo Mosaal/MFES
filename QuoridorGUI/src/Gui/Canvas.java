@@ -116,6 +116,15 @@ public class Canvas extends JPanel {
 					
 					if (n == 0) {
 						root.resetGame();
+						
+						for (int i = 0; i < wallsGridVer.length; i++)
+							for (int j = 0; j < wallsGridVer[i].length; j++)
+								wallsGridVer[i][j].setTaken(false);
+						
+						for (int i = 0; i < wallsGridHor.length; i++)
+							for (int j = 0; j < wallsGridHor[i].length; j++)
+								wallsGridHor[i][j].setTaken(false);
+						
 						repaint();
 						root.updateInfo();
 					} else {
