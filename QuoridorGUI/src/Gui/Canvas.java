@@ -11,11 +11,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import Quoridor.Space;
+
 public class Canvas extends JPanel {
 
 	private static final long serialVersionUID = 3640767985329569838L;
 
-	private QuoridorGUI parent;
+	private QuoridorGUI root;
 	private Tile[][] pawnGrid;
 	private Tile[][] wallsGridVer;
 	private Tile[][] wallsGridHor;
@@ -23,9 +25,11 @@ public class Canvas extends JPanel {
 	private BufferedImage glowTileImage;
 	private BufferedImage player1Image;
 	private BufferedImage player2Image;
+	private boolean waitingForClick = false;
 	
-	public Canvas(QuoridorGUI p) {
-		parent = p;
+	public Canvas(QuoridorGUI root) {
+		this.root = root;
+		
 		pawnGrid = new Tile[9][9];
 		for (int i = 0; i < pawnGrid.length; i++)
 			for (int j = 0; j < pawnGrid[i].length; j++)
@@ -55,43 +59,46 @@ public class Canvas extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				for (int i = 0; i < pawnGrid.length; i++) {
 					for (int j = 0; j < pawnGrid[i].length; j++) {
-						if (pawnGrid[i][j].contains(e.getX(), e.getY())){
-							System.out.println("Pawn cell: " + (i+1) + ", " + (j+1));
-						
-							//TODO 
-							//parent.game
+						if (pawnGrid[i][j].contains(e.getX(), e.getY())) {
+							System.out.println("Pawn cell: " + (i + 1) + ", " + (j + 1));
 							
+							if (waitingForClick) {
+								waitingForClick = false;
+								root.getGame().movePiece((Number) j, (Number) i);
+							} else {
+								// TODO
+							}
 						}
 					}
 				}
 				
 				for (int i = 0; i < wallsGridVer.length; i++) {
 					for (int j = 0; j < wallsGridVer[i].length; j++) {
-						if (wallsGridVer[i][j].contains(e.getX(), e.getY())){
-							System.out.println("Ver. wall cell: " + (i+1) + ", " + (j+1));
+						if (wallsGridVer[i][j].contains(e.getX(), e.getY())) {
+							System.out.println("Ver. wall cell: " + (i + 1) + ", " + (j + 1));
 							
-							//TODO 
+							if (root.getGame().placeWall((Number) (i + 1), (Number) (j + 1), Space.DOWN))
+								wallsGridVer[i][j].setTaken(true);
 						}
 					}
 				}
 				
 				for (int i = 0; i < wallsGridHor.length; i++) {
 					for (int j = 0; j < wallsGridHor[i].length; j++) {
-						if (wallsGridHor[i][j].contains(e.getX(), e.getY())){
-							System.out.println("Hor. wall cell: " + (i+1) + ", " + (j+1));
+						if (wallsGridHor[i][j].contains(e.getX(), e.getY())) {
+							System.out.println("Hor. wall cell: " + (i + 1) + ", " + (j + 1));
 							
-							//TODO 
+							if (root.getGame().placeWall((Number) (i + 1), (Number) (j + 1), Space.RIGHT))
+								wallsGridHor[i][j].setTaken(true);
 						}
 					}
 				}
 				
-
-				
-				parent.updateGraphics();
+				repaint();
+				root.updateInfo();
 			}
 			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
+			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {}
 			@Override
@@ -111,16 +118,32 @@ public class Canvas extends JPanel {
 				g.drawImage(tileImage, j * tileImage.getWidth(), i * tileImage.getHeight(), null);
 		
 		// Draw pawn pieces
-		g.drawImage(player1Image, 4 * player1Image.getWidth(), 8 * player1Image.getHeight(), null);
-		g.drawImage(player2Image, 4 * player2Image.getWidth(), 0 * player2Image.getHeight(), null);
+		int rowP1 = root.getGame().getPlayer1().getRow().intValue() - 1;
+		int colP1 = root.getGame().getPlayer1().getCol().intValue() - 1;
+		int rowP2 = root.getGame().getPlayer2().getRow().intValue() - 1;
+		int colP2 = root.getGame().getPlayer2().getCol().intValue() - 1;
+		
+		g.drawImage(player1Image, colP1 * player1Image.getWidth(), rowP1 * player1Image.getHeight(), null);
+		g.drawImage(player2Image, colP2 * player2Image.getWidth(), rowP2 * player2Image.getHeight(), null);
 		
 		// Draw glowing tiles
-		g.drawImage(glowTileImage, 3 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
-		g.drawImage(glowTileImage, 4 * glowTileImage.getWidth(), 7 * glowTileImage.getHeight(), null);
-		g.drawImage(glowTileImage, 5 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
+		if (waitingForClick) {
+			// TODO
+		}
+		// g.drawImage(glowTileImage, 3 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
+		// g.drawImage(glowTileImage, 4 * glowTileImage.getWidth(), 7 * glowTileImage.getHeight(), null);
+		// g.drawImage(glowTileImage, 5 * glowTileImage.getWidth(), 8 * glowTileImage.getHeight(), null);
 		
 		// Draw wall pieces
 		g.setColor(new Color(110, 110, 110));
-		g.fillRect(45, 5, 10, 90);
+		for (int i = 0; i < wallsGridVer.length; i++)
+			for (int j = 0; j < wallsGridVer[i].length; j++)
+				if (wallsGridVer[i][j].isTaken())
+					g.fillRect(45 + (50 * j), 5 + (50 * i), 10, 90);
+		
+		for (int i = 0; i < wallsGridHor.length; i++)
+			for (int j = 0; j < wallsGridHor[i].length; j++)
+				if (wallsGridHor[i][j].isTaken())
+					g.fillRect(5 + (50 * j), 45 + (50 * i), 90, 10);
 	}
 }

@@ -69,6 +69,8 @@ class Board
 			if r = pl.getRow() then
 				if c = pl.getCol() then
 					return ret;
+					
+			if abs pl.getRow() - r > 1 and abs pl.getCol() - c > 1 then return ret;
 			
 			if board(r)(c).getValue() = 0 then (
 				if r = pl.getRow() then (
